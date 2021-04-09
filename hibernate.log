@@ -1,0 +1,185 @@
+2021-03-29 10:00:52 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: gellog]
+2021-03-29 10:00:52 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.30.Final
+2021-03-29 10:00:52 [main] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-03-29 10:00:52 [main] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2021-03-29 10:00:52 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/gellog]
+2021-03-29 10:00:52 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {password=****, user=guest}
+2021-03-29 10:00:52 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2021-03-29 10:00:52 [main] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2021-03-29 10:00:53 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-03-29 10:00:54 [main] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@46911148] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2021-03-29 10:00:54 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-03-29 10:00:54 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        People
+        (name, surname) 
+    values
+        (?, ?)
+2021-03-29 10:00:54 [main] DEBUG org.hibernate.SQL - 
+    select
+        people0_.id as id1_0_0_,
+        people0_.name as name2_0_0_,
+        people0_.surname as surname3_0_0_ 
+    from
+        People people0_ 
+    where
+        people0_.id=?
+2021-03-29 10:00:54 [main] DEBUG org.hibernate.SQL - 
+    select
+        people0_.id as id1_0_,
+        people0_.name as name2_0_,
+        people0_.surname as surname3_0_ 
+    from
+        People people0_ 
+    where
+        people0_.name=?
+2021-03-29 10:00:54 [main] DEBUG org.hibernate.SQL - 
+    select
+        people0_.id as id1_0_,
+        people0_.name as name2_0_,
+        people0_.surname as surname3_0_ 
+    from
+        People people0_
+2021-04-09 09:32:39 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: gellog]
+2021-04-09 09:32:40 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.30.Final
+2021-04-09 09:32:40 [main] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-04-09 09:32:40 [main] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2021-04-09 09:32:40 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/gellog]
+2021-04-09 09:32:40 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {password=****, user=guest}
+2021-04-09 09:32:40 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2021-04-09 09:32:40 [main] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2021-04-09 09:32:41 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-04-09 09:32:41 [main] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6be6931f] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2021-04-09 09:32:41 [main] DEBUG org.hibernate.SQL - 
+    
+    create table TABELAFRETE (
+       id integer not null auto_increment,
+        ativo bit not null,
+        bh10kg decimal(19,2),
+        bhExcedente decimal(19,2),
+        confinsTaxa decimal(19,2),
+        date datetime(6),
+        interior10kg decimal(19,2),
+        interiorExcedente decimal(19,2),
+        kmFiorino decimal(19,2),
+        kmVanHR decimal(19,2),
+        rmbh10kg decimal(19,2),
+        rmbhExcedente decimal(19,2),
+        primary key (id)
+    ) engine=InnoDB
+2021-04-09 09:32:41 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-04-09 09:32:41 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        TABELAFRETE
+        (ativo, bh10kg, bhExcedente, confinsTaxa, date, interior10kg, interiorExcedente, kmFiorino, kmVanHR, rmbh10kg, rmbhExcedente) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2021-04-09 09:36:03 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: gellog]
+2021-04-09 09:36:03 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.30.Final
+2021-04-09 09:36:03 [main] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-04-09 09:36:03 [main] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2021-04-09 09:36:03 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/gellog]
+2021-04-09 09:36:03 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {password=****, user=guest}
+2021-04-09 09:36:03 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2021-04-09 09:36:03 [main] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2021-04-09 09:36:03 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-04-09 09:36:04 [main] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6be6931f] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2021-04-09 09:36:04 [main] DEBUG org.hibernate.SQL - 
+    
+    create table tabelaFrete (
+       id integer not null auto_increment,
+        ativo bit not null,
+        bh10kg decimal(19,2),
+        bhExcedente decimal(19,2),
+        confinsTaxa decimal(19,2),
+        date datetime(6),
+        interior10kg decimal(19,2),
+        interiorExcedente decimal(19,2),
+        kmFiorino decimal(19,2),
+        kmVanHR decimal(19,2),
+        rmbh10kg decimal(19,2),
+        rmbhExcedente decimal(19,2),
+        primary key (id)
+    ) engine=InnoDB
+2021-04-09 09:36:04 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-04-09 09:36:04 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        tabelaFrete
+        (ativo, bh10kg, bhExcedente, confinsTaxa, date, interior10kg, interiorExcedente, kmFiorino, kmVanHR, rmbh10kg, rmbhExcedente) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2021-04-09 10:39:30 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: gellog]
+2021-04-09 10:39:30 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.30.Final
+2021-04-09 10:39:31 [main] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-04-09 10:39:31 [main] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2021-04-09 10:39:31 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/gellog]
+2021-04-09 10:39:31 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {password=****, user=guest}
+2021-04-09 10:39:31 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2021-04-09 10:39:31 [main] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2021-04-09 10:39:31 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-04-09 10:39:32 [main] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6be6931f] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2021-04-09 10:39:32 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-04-09 10:39:32 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        tabelaFrete
+        (ativo, bh10kg, bhExcedente, confinsTaxa, date, interior10kg, interiorExcedente, kmFiorino, kmVanHR, rmbh10kg, rmbhExcedente) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2021-04-09 10:39:32 [main] DEBUG org.hibernate.SQL - 
+    select
+        tabelafret0_.id as id1_1_0_,
+        tabelafret0_.ativo as ativo2_1_0_,
+        tabelafret0_.bh10kg as bh3_1_0_,
+        tabelafret0_.bhExcedente as bhexcede4_1_0_,
+        tabelafret0_.confinsTaxa as confinst5_1_0_,
+        tabelafret0_.date as date6_1_0_,
+        tabelafret0_.interior10kg as interior7_1_0_,
+        tabelafret0_.interiorExcedente as interior8_1_0_,
+        tabelafret0_.kmFiorino as kmfiorin9_1_0_,
+        tabelafret0_.kmVanHR as kmvanhr10_1_0_,
+        tabelafret0_.rmbh10kg as rmbh11_1_0_,
+        tabelafret0_.rmbhExcedente as rmbhexc12_1_0_ 
+    from
+        tabelaFrete tabelafret0_ 
+    where
+        tabelafret0_.id=?
+2021-04-09 10:41:36 [main] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: gellog]
+2021-04-09 10:41:36 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.30.Final
+2021-04-09 10:41:37 [main] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-04-09 10:41:37 [main] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2021-04-09 10:41:37 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/gellog]
+2021-04-09 10:41:37 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {password=****, user=guest}
+2021-04-09 10:41:37 [main] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2021-04-09 10:41:37 [main] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2021-04-09 10:41:37 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-04-09 10:41:38 [main] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6be6931f] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2021-04-09 10:41:38 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-04-09 10:41:38 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        tabelaFrete
+        (ativo, bh10kg, bhExcedente, confinsTaxa, date, interior10kg, interiorExcedente, kmFiorino, kmVanHR, rmbh10kg, rmbhExcedente) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2021-04-09 10:41:38 [main] DEBUG org.hibernate.SQL - 
+    select
+        tabelafret0_.id as id1_1_0_,
+        tabelafret0_.ativo as ativo2_1_0_,
+        tabelafret0_.bh10kg as bh3_1_0_,
+        tabelafret0_.bhExcedente as bhexcede4_1_0_,
+        tabelafret0_.confinsTaxa as confinst5_1_0_,
+        tabelafret0_.date as date6_1_0_,
+        tabelafret0_.interior10kg as interior7_1_0_,
+        tabelafret0_.interiorExcedente as interior8_1_0_,
+        tabelafret0_.kmFiorino as kmfiorin9_1_0_,
+        tabelafret0_.kmVanHR as kmvanhr10_1_0_,
+        tabelafret0_.rmbh10kg as rmbh11_1_0_,
+        tabelafret0_.rmbhExcedente as rmbhexc12_1_0_ 
+    from
+        tabelaFrete tabelafret0_ 
+    where
+        tabelafret0_.id=?
