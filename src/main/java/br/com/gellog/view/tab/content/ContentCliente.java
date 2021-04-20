@@ -5,10 +5,14 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 
 import javax.swing.BorderFactory;
@@ -22,11 +26,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.MaskFormatter;
 
+import br.com.gellog.controller.TabelaController;
 import br.com.gellog.view.util.CEPConnection;
 import br.com.gellog.view.util.JbtnRoundedBorder;
 import br.com.gellog.view.util.MyJPanel;
 import br.com.gellog.view.util.Events.EmailFormat;
 import br.com.gellog.view.util.Events.FormatPhone;
+import br.com.gellog.view.util.Events.OnlyNumber;
+import br.com.gellog.view.util.Events.OnlyWords;
 
 public class ContentCliente {
 	private JPanel panel_DadosGeraisTitulo, panel, panel_Titulo, panel_TituloContato, panel_TituloFrete;
@@ -34,8 +41,8 @@ public class ContentCliente {
 	private JLabel lblDadosGerais;
 	private JButton btnAdicionar;
 	private JFormattedTextField txFRazaoSocial, txFCNPJ, txFInscricaoEstadual, txFEmail, txFTelefone, txFCEP, txFCidade,
-			txFEstado, txFBairro, txFLogradouro, txFNumero, txFComplemento, txFNome, txFEmailEmpresa,
-			txFTelefoneEmpresa, txFDescricao;
+			txFEstado, txFBairro, txFLogradouro, txFNumero, txFComplemento, txFNome, txFEmailContato,
+			txFTelefoneContato, txFDescricao;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	
 	public JPanel contentCliente() {
@@ -94,6 +101,7 @@ public class ContentCliente {
 		gbc_txFRazaoSocial.gridy = 1;
 		panel_DadosGerais.add(txFRazaoSocial, gbc_txFRazaoSocial);
 		txFRazaoSocial.setColumns(18);
+		txFRazaoSocial.getDocument().addDocumentListener(new OnlyWords(txFRazaoSocial));
 
 		JLabel lblCnpj = new JLabel("CNPJ:");
 		GridBagConstraints gbc_lblCnpj = new GridBagConstraints();
@@ -356,6 +364,8 @@ public class ContentCliente {
 		gbc_txFNumero.gridy = 2;
 		panel_Endereco.add(txFNumero, gbc_txFNumero);
 		txFNumero.setColumns(10);
+		txFNumero.getDocument().addDocumentListener(new OnlyNumber(txFNumero));
+		
 
 		JLabel lblComplemento = new JLabel("Complemento:");
 		GridBagConstraints gbc_lblComplemento = new GridBagConstraints();
@@ -422,6 +432,7 @@ public class ContentCliente {
 		gbc_txFNome.gridy = 1;
 		panel_Contato.add(txFNome, gbc_txFNome);
 		txFNome.setColumns(10);
+		txFNome.getDocument().addDocumentListener(new OnlyWords(txFNome));
 
 		JLabel lblEmailEmpresa = new JLabel("E-mail:");
 		GridBagConstraints gbc_lblEmailEmpresa = new GridBagConstraints();
@@ -431,14 +442,28 @@ public class ContentCliente {
 		gbc_lblEmailEmpresa.gridy = 1;
 		panel_Contato.add(lblEmailEmpresa, gbc_lblEmailEmpresa);
 
-		txFEmailEmpresa = new JFormattedTextField();
-		GridBagConstraints gbc_txFEmailEmpresa = new GridBagConstraints();
-		gbc_txFEmailEmpresa.insets = new Insets(0, 0, 5, 5);
-		gbc_txFEmailEmpresa.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txFEmailEmpresa.gridx = 4;
-		gbc_txFEmailEmpresa.gridy = 1;
-		panel_Contato.add(txFEmailEmpresa, gbc_txFEmailEmpresa);
-		txFEmailEmpresa.setColumns(10);
+		txFEmailContato = new JFormattedTextField();
+		GridBagConstraints gbc_txFEmailContato = new GridBagConstraints();
+		gbc_txFEmailContato.insets = new Insets(0, 0, 5, 5);
+		gbc_txFEmailContato.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txFEmailContato.gridx = 4;
+		gbc_txFEmailContato.gridy = 1;
+		panel_Contato.add(txFEmailContato, gbc_txFEmailContato);
+		txFEmailContato.setColumns(10);
+		txFEmailContato.addFocusListener(new FocusListener() {
+
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				if (!EmailFormat.validate(txFEmailContato.getText())) {
+					txFEmailContato.setText(null);
+				}
+			}
+
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 		JLabel lblTelefoneEmpresa = new JLabel("Telefone:");
 		GridBagConstraints gbc_lblTelefoneEmpresa = new GridBagConstraints();
@@ -448,15 +473,16 @@ public class ContentCliente {
 		gbc_lblTelefoneEmpresa.gridy = 1;
 		panel_Contato.add(lblTelefoneEmpresa, gbc_lblTelefoneEmpresa);
 
-		txFTelefoneEmpresa = new JFormattedTextField();
-		GridBagConstraints gbc_txFTelefoneEmpresa = new GridBagConstraints();
-		gbc_txFTelefoneEmpresa.gridwidth = 2;
-		gbc_txFTelefoneEmpresa.insets = new Insets(0, 0, 5, 5);
-		gbc_txFTelefoneEmpresa.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txFTelefoneEmpresa.gridx = 6;
-		gbc_txFTelefoneEmpresa.gridy = 1;
-		panel_Contato.add(txFTelefoneEmpresa, gbc_txFTelefoneEmpresa);
-		// txFTelefone.setColumns(10);
+		txFTelefoneContato = new JFormattedTextField();
+		GridBagConstraints gbc_txFTelefoneRename = new GridBagConstraints();
+		gbc_txFTelefoneRename.gridwidth = 2;
+		gbc_txFTelefoneRename.insets = new Insets(0, 0, 5, 5);
+		gbc_txFTelefoneRename.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txFTelefoneRename.gridx = 6;
+		gbc_txFTelefoneRename.gridy = 1;
+		panel_Contato.add(txFTelefoneContato, gbc_txFTelefoneRename);
+		txFTelefone.setColumns(10);
+		txFTelefoneContato.getDocument().addDocumentListener(new FormatPhone(txFTelefoneContato));
 
 		JLabel lblDescrio = new JLabel("Descrição:");
 		GridBagConstraints gbc_lblDescrio = new GridBagConstraints();
@@ -476,7 +502,7 @@ public class ContentCliente {
 		panel_Contato.add(txFDescricao, gbc_txFDescricao);
 		// txFDescricao.setColumns(10);
 
-		btnAdicionar = new JButton("Adicionar");
+		btnAdicionar = new JButton("Incluir Contato");
 		btnAdicionar.setBorder(new JbtnRoundedBorder(5));
 		btnAdicionar.setBackground(new Color(110, 110, 135));
 		btnAdicionar.setForeground(new Color(255, 255, 255));
@@ -485,6 +511,24 @@ public class ContentCliente {
 		gbc_btnAdicionar.gridx = 6;
 		gbc_btnAdicionar.gridy = 3;
 		panel_Contato.add(btnAdicionar, gbc_btnAdicionar);
+		
+		btnAdicionar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				super.keyReleased(e);
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnAdicionar.doClick();
+				}
+			}
+		});
+		btnAdicionar.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
 		JTextPane txPContatosAdicionados = new JTextPane();
 		JScrollPane spContatosAdicionados = new JScrollPane(txPContatosAdicionados);
@@ -556,6 +600,23 @@ public class ContentCliente {
 		gbc_btnCostumizarTabelaDe.gridx = 2;
 		gbc_btnCostumizarTabelaDe.gridy = 2;
 		panel_TabelaFrete.add(btnCostumizarTabelaDe, gbc_btnCostumizarTabelaDe);
+		btnCostumizarTabelaDe.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				super.keyReleased(e);
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnCostumizarTabelaDe.doClick();
+				}
+			}
+		});
+		btnCostumizarTabelaDe.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
 		rdbtnCostumizarTabela.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
