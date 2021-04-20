@@ -3,23 +3,26 @@ package br.com.gellog.teste;
 
 import java.math.BigDecimal;
 
-import br.com.gellog.dao.DAOQueries;
-import br.com.gellog.dao.PeopleQueries;
-import br.com.gellog.model.People;
-import br.com.gellog.model.TabelaFrete;
+import br.com.gellog.dao.SimpleQueries;
+import br.com.gellog.dao.TabelaFreteQueries;
+import br.com.gellog.model.TabelaFreteModel;
 
 
 public class Test {
 	
 	public static void main(String[] args) {
-	
-			 TabelaFrete tabela = new TabelaFrete(new BigDecimal(400), new BigDecimal(500.6), new BigDecimal(300.69), new BigDecimal(100.54), new BigDecimal(100.43), new BigDecimal(100.0), new BigDecimal(100.11), new BigDecimal(100), new BigDecimal(100));
 		
-			 DAOQueries consulta = new DAOQueries();
+	
+	//		 TabelaFreteModel tabela = new TabelaFreteModel(new BigDecimal(400), new BigDecimal(500.6), new BigDecimal(300.69), new BigDecimal(100.54), new BigDecimal(100.43), new BigDecimal(100.0), new BigDecimal(100.11), new BigDecimal(100), new BigDecimal(100));
+			//TabelaFreteModel tabelaFreteModel =	new TabelaFreteModel(new BigDecimal(9.9), new BigDecimal(9.5), new BigDecimal(9.3), new BigDecimal(9.6), new BigDecimal(8.9), new BigDecimal(8.6), new BigDecimal(8.7), new BigDecimal(7.6), new BigDecimal(7.76));
+			//tabelaFreteModel.setId(1);
+			
+			 System.out.println(new TabelaFreteQueries().lastResult());
+			 //consulta.updateObject(tabelaFreteModel, 1);
 			 
-			 consulta.simpleInsert(tabela);
+			 //consulta.simpleInsert(tabela);
 			 
-			 System.out.println(consulta.idSearch(tabela, 1));
+			 //System.out.println(consulta.idSearch(tabela, 1));
 		
 		//People people = new People("Thunder", "Cat");			 
 

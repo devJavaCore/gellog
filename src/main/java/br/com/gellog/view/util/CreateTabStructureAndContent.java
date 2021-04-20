@@ -43,15 +43,19 @@ public class CreateTabStructureAndContent {
 
 		
 		panel_east = new JPanel();
+		panel_east.setBackground(new Color(240,240,240));
 		panel_main.add(panel_east, BorderLayout.EAST);
 				
 		panel_south = new JPanel();
+		panel_south.setBackground(new Color(240,240,240));
 		panel_main.add(panel_south, BorderLayout.SOUTH);
 		
 		panel_west = new JPanel();
+		panel_west.setBackground(new Color(240,240,240));
 		panel_main.add(panel_west, BorderLayout.WEST);
 		
 		panel_center = new JPanel();
+		panel_center.setBackground(new Color(240,240,240));
 		panel_main.add(panel_center, BorderLayout.CENTER);
 		
 		tabbedPane.setComponentAt(index, panel_main);

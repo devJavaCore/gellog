@@ -12,8 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import br.com.gellog.view.tab.content.ContentTabela;
-import br.com.gellog.view.util.buttons.BotaoCancelar;
-import br.com.gellog.view.util.buttons.BotaoSalvar;
+import br.com.gellog.view.util.JIconButton;
 
 public class FrameTabela extends JFrame {
 	
@@ -69,7 +68,7 @@ public class FrameTabela extends JFrame {
 		
 		JPanel panel_south = new JPanel();
 		contentPane.add(panel_south, BorderLayout.SOUTH);
-		panel_south.add(new BotaoCancelar().botaoCancelar());
-		panel_south.add(new BotaoSalvar().botaoSalvar());
+		panel_south.add(new JIconButton().botaoCancelar());
+		panel_south.add(new JIconButton().botaoSalvar());
 	}
 }

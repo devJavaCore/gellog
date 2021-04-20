@@ -9,7 +9,7 @@
                 <!--<provider>org.hibernate.ejb.HibernatePersistence</provider>-->
 		<!-- Aqui são listadas todas as entidades -->
 		<class>br.com.gellog.model.People</class>
-		<class>br.com.gellog.model.TabelaFrete</class>
+		<class>br.com.gellog.model.TabelaFreteModel</class>
 		<properties>
 			<!-- Propriedades JDBC -->
 			<property name="javax.persistence.jdbc.driver"
