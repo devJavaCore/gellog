@@ -8,8 +8,13 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
                 <!--<provider>org.hibernate.ejb.HibernatePersistence</provider>-->
 		<!-- Aqui são listadas todas as entidades -->
-		<class>br.com.gellog.model.People</class>
+		<class>br.com.gellog.model.Pessoa</class>
 		<class>br.com.gellog.model.TabelaFreteModel</class>
+		<class>br.com.gellog.model.Empresa</class>
+		<class>br.com.gellog.model.Endereco</class>
+		<class>br.com.gellog.model.FuncionarioCliente</class>
+		<class>br.com.gellog.model.Login</class>
+		<class>br.com.gellog.model.TabelaLogin</class>
 		<properties>
 			<!-- Propriedades JDBC -->
 			<property name="javax.persistence.jdbc.driver"

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.SystemColor;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
@@ -13,6 +14,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 
+import br.com.gellog.controller.LoginController;
 import br.com.gellog.view.tab.TabCliente;
 import br.com.gellog.view.tab.TabColetas;
 import br.com.gellog.view.tab.TabConfirmacoes;
@@ -82,5 +84,14 @@ public class CreateAndShowGUI extends JFrame {
 				super.installDefaults();
 			}
 		});
+		
+		JPanel jp = new JPanel();
+		jp.setBackground(new Color(70, 70, 75));
+		jp.setLayout(new BorderLayout(0, 0));
+		frame.getContentPane().add(jp, BorderLayout.SOUTH);
+		JLabel usuario = new JLabel("Usuário: "+LoginController.getUltimoLogado().getUserName());
+		usuario.setForeground(Color.WHITE);
+		usuario.setBorder(new EmptyBorder(0,0,0,5));
+		jp.add(usuario, BorderLayout.EAST);		
 	}
 }

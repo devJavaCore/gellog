@@ -8,38 +8,39 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import br.com.gellog.controller.TabelaController;
-import br.com.gellog.model.TabelaFreteModel;
-import br.com.gellog.view.TesteOutro;
-import br.com.gellog.view.util.JIconButton;
-import br.com.gellog.view.util.JIconTextField;
-import br.com.gellog.view.util.JTextFiledSettings;
-import br.com.gellog.view.util.MyJPanel;
-import br.com.gellog.view.util.Events.FormatNumber;
+import br.com.gellog.view.frame.FrameTabela;
+import br.com.gellog.view.util.Events.NumberFormatter;
+import br.com.gellog.view.util.Events.SetZero;
+import br.com.gellog.view.util.jcomponents.JIconButton;
+import br.com.gellog.view.util.jcomponents.JIconTextField;
+import br.com.gellog.view.util.jcomponents.JTextFiledSettings;
+import br.com.gellog.view.util.jcomponents.MyJPanel;
 
 public class ContentTabela {
 
 	private JIconTextField txFBHKG, txFBHExc, txFRMBHKg, txFRMBHExc, txFInterirorKG, txFInterirorExc, txFTxConfins,
 			txFKmRodadoFiorino, txFKmRodadoVan, txFFiorinoh, txFVanh, txFFiorino2h, txFVan2h, txFFiorino4h, txFVan4h,
 			txFFiorino6h, txFVan6h, txFFiorino8h, txFVan8h;
-	private JButton jbtnResetTabelaPadrao;
+	private JButton jbtnResetTabelaPadrao, botaoCancelar, botaoAtualizar;
 	private JPanel panel_TxParadoTitulo;
 	private JLabel lblTaxaPorTempo;
-	private TabelaFreteModel tabelaFreteObject;
 	private MyJPanel panel_CalculoPeso, panel_CalculoKm, panel_txParado;
 
-	public JPanel contentTabela() {
-
-		tabelaFreteObject = new TabelaFreteModel();
+	public JPanel contentTabela(boolean tabelaPadrao) {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(240, 240, 240));
@@ -52,6 +53,7 @@ public class ContentTabela {
 		panel.setLayout(gbl_panel);
 
 		panel_CalculoPeso = new MyJPanel();
+		panel_CalculoPeso.setBorder(new EmptyBorder(0, 5, 5, 5));
 		GridBagConstraints gbc_panel_CalculoPeso = new GridBagConstraints();
 		gbc_panel_CalculoPeso.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_CalculoPeso.fill = GridBagConstraints.BOTH;
@@ -142,7 +144,12 @@ public class ContentTabela {
 
 		JLabel lblTaxaConfins = new JLabel("Taxa Confins");
 		txFBHKG.setHorizontalAlignment(SwingConstants.CENTER);
-		txFBHKG.setIcon(new ImageIcon(TesteOutro.class.getResource("/br/com/gellog/view/img/currency.png")));
+		try {
+			txFBHKG.setIcon(new ImageIcon(ImageIO.read(new File("/br/com/gellog/view/img/currency.png"))));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		GridBagConstraints gbc_lblTaxaConfins = new GridBagConstraints();
 		gbc_lblTaxaConfins.anchor = GridBagConstraints.EAST;
 		gbc_lblTaxaConfins.insets = new Insets(0, 0, 0, 5);
@@ -161,6 +168,7 @@ public class ContentTabela {
 		 */
 
 		panel_CalculoKm = new MyJPanel();
+		panel_CalculoKm.setBorder(new EmptyBorder(0, 5, 5, 5));
 		GridBagConstraints gbc_panel_CalculoKm = new GridBagConstraints();
 		gbc_panel_CalculoKm.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_CalculoKm.fill = GridBagConstraints.NORTH;
@@ -228,6 +236,7 @@ public class ContentTabela {
 		 */
 
 		panel_txParado = new MyJPanel();
+		panel_txParado.setBorder(new EmptyBorder(0, 5, 5, 5));
 		GridBagConstraints gbc_panel_txParado = new GridBagConstraints();
 		gbc_panel_txParado.anchor = GridBagConstraints.NORTH;
 		gbc_panel_txParado.fill = GridBagConstraints.HORIZONTAL;
@@ -353,52 +362,51 @@ public class ContentTabela {
 		panel.add(jbtnResetTabelaPadrao, gbc_jbtnResetTabelaPadrao);
 
 		/*
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
 		 * Tags
 		 * =============================================================================
 		 * Events, formatting numbers
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
 		 */
+		// Setting 0 in null fields
+		txFBHKG.addFocusListener(new SetZero(txFBHKG));
+		txFBHExc.addFocusListener(new SetZero(txFBHExc));
+		txFRMBHKg.addFocusListener(new SetZero(txFRMBHKg));
+		txFRMBHExc.addFocusListener(new SetZero(txFRMBHExc));
+		txFInterirorKG.addFocusListener(new SetZero(txFInterirorKG));
+		txFInterirorExc.addFocusListener(new SetZero(txFInterirorExc));
+		txFTxConfins.addFocusListener(new SetZero(txFTxConfins));
+		txFKmRodadoFiorino.addFocusListener(new SetZero(txFKmRodadoFiorino));
+		txFKmRodadoVan.addFocusListener(new SetZero(txFKmRodadoVan));
+		txFFiorinoh.addFocusListener(new SetZero(txFFiorinoh));
+		txFVanh.addFocusListener(new SetZero(txFVanh));
+		txFFiorino2h.addFocusListener(new SetZero(txFFiorino2h));
+		txFVan2h.addFocusListener(new SetZero(txFVan2h));
+		txFFiorino4h.addFocusListener(new SetZero(txFFiorino4h));
+		txFVan4h.addFocusListener(new SetZero(txFVan4h));
+		txFFiorino6h.addFocusListener(new SetZero(txFFiorino6h));
+		txFVan6h.addFocusListener(new SetZero(txFVan6h));
+		txFFiorino8h.addFocusListener(new SetZero(txFFiorino8h));
+		txFVan8h.addFocusListener(new SetZero(txFVan8h));
 
-		txFBHKG.getDocument().addDocumentListener(new FormatNumber(txFBHKG));
-		txFBHExc.getDocument().addDocumentListener(new FormatNumber(txFBHExc));
-		txFRMBHKg.getDocument().addDocumentListener(new FormatNumber(txFRMBHKg));
-		txFRMBHExc.getDocument().addDocumentListener(new FormatNumber(txFRMBHExc));
-		txFInterirorKG.getDocument().addDocumentListener(new FormatNumber(txFInterirorKG));
-		txFInterirorExc.getDocument().addDocumentListener(new FormatNumber(txFInterirorExc));
-		txFTxConfins.getDocument().addDocumentListener(new FormatNumber(txFTxConfins));
-		txFKmRodadoFiorino.getDocument().addDocumentListener(new FormatNumber(txFKmRodadoFiorino));
-		txFKmRodadoVan.getDocument().addDocumentListener(new FormatNumber(txFKmRodadoVan));
-		txFFiorinoh.getDocument().addDocumentListener(new FormatNumber(txFFiorinoh));
-		txFVanh.getDocument().addDocumentListener(new FormatNumber(txFVanh));
-		txFFiorino2h.getDocument().addDocumentListener(new FormatNumber(txFFiorino2h));
-		txFVan2h.getDocument().addDocumentListener(new FormatNumber(txFVan2h));
-		txFFiorino4h.getDocument().addDocumentListener(new FormatNumber(txFFiorino4h));
-		txFVan4h.getDocument().addDocumentListener(new FormatNumber(txFVan4h));
-		txFFiorino6h.getDocument().addDocumentListener(new FormatNumber(txFFiorino6h));
-		txFVan6h.getDocument().addDocumentListener(new FormatNumber(txFVan6h));
-		txFFiorino8h.getDocument().addDocumentListener(new FormatNumber(txFFiorino8h));
-		txFVan8h.getDocument().addDocumentListener(new FormatNumber(txFVan8h));
+		// Monetary format
+		txFBHKG.getDocument().addDocumentListener(new NumberFormatter(txFBHKG));
+		txFBHExc.getDocument().addDocumentListener(new NumberFormatter(txFBHExc));
+		txFRMBHKg.getDocument().addDocumentListener(new NumberFormatter(txFRMBHKg));
+		txFRMBHExc.getDocument().addDocumentListener(new NumberFormatter(txFRMBHExc));
+		txFInterirorKG.getDocument().addDocumentListener(new NumberFormatter(txFInterirorKG));
+		txFInterirorExc.getDocument().addDocumentListener(new NumberFormatter(txFInterirorExc));
+		txFTxConfins.getDocument().addDocumentListener(new NumberFormatter(txFTxConfins));
+		txFKmRodadoFiorino.getDocument().addDocumentListener(new NumberFormatter(txFKmRodadoFiorino));
+		txFKmRodadoVan.getDocument().addDocumentListener(new NumberFormatter(txFKmRodadoVan));
+		txFFiorinoh.getDocument().addDocumentListener(new NumberFormatter(txFFiorinoh));
+		txFVanh.getDocument().addDocumentListener(new NumberFormatter(txFVanh));
+		txFFiorino2h.getDocument().addDocumentListener(new NumberFormatter(txFFiorino2h));
+		txFVan2h.getDocument().addDocumentListener(new NumberFormatter(txFVan2h));
+		txFFiorino4h.getDocument().addDocumentListener(new NumberFormatter(txFFiorino4h));
+		txFVan4h.getDocument().addDocumentListener(new NumberFormatter(txFVan4h));
+		txFFiorino6h.getDocument().addDocumentListener(new NumberFormatter(txFFiorino6h));
+		txFVan6h.getDocument().addDocumentListener(new NumberFormatter(txFVan6h));
+		txFFiorino8h.getDocument().addDocumentListener(new NumberFormatter(txFFiorino8h));
+		txFVan8h.getDocument().addDocumentListener(new NumberFormatter(txFVan8h));
 
 		jbtnResetTabelaPadrao.addKeyListener(new KeyAdapter() {
 			@Override
@@ -410,279 +418,146 @@ public class ContentTabela {
 				}
 			}
 		});
+
 		jbtnResetTabelaPadrao.addActionListener(new ActionListener() {
-			
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				setTextfromjfields(new TabelaController().valorTabelaPadrao());
+				resetaTabelaPadrao();
 			}
 		});
+
+		JPanel panel_buttons = new JPanel();
+		panel_buttons.setBorder(new EmptyBorder(20, 0, 0, 0));
+		GridBagConstraints gbc_panel_buttons = new GridBagConstraints();
+		gbc_panel_buttons.gridwidth = 2;
+		gbc_panel_buttons.anchor = GridBagConstraints.SOUTH;
+		gbc_panel_buttons.fill = GridBagConstraints.HORIZONTAL;
+		gbc_panel_buttons.gridx = 0;
+		gbc_panel_buttons.gridy = 2;
+		panel.add(panel_buttons, gbc_panel_buttons);
+
+		botaoCancelar = new JIconButton().botaoCancelar();
+		botaoAtualizar = new JIconButton().botaoAtualizar();
+		panel_buttons.add(botaoCancelar);
+		panel_buttons.add(botaoAtualizar);
+		botaoAtualizar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+				try {
+					TabelaController.updateTabelaPadrao(tabelaPadrao, new BigDecimal(txFBHKG.getText()),
+							new BigDecimal(txFBHExc.getText()), new BigDecimal(txFRMBHKg.getText()),
+							new BigDecimal(txFRMBHExc.getText()), new BigDecimal(txFInterirorKG.getText()),
+							new BigDecimal(txFInterirorExc.getText()), new BigDecimal(txFTxConfins.getText()),
+							new BigDecimal(txFKmRodadoFiorino.getText()), new BigDecimal(txFKmRodadoVan.getText()),
+							new BigDecimal(txFFiorinoh.getText()), new BigDecimal(txFVanh.getText()),
+							new BigDecimal(txFFiorino2h.getText()), new BigDecimal(txFVan2h.getText()),
+							new BigDecimal(txFFiorino4h.getText()), new BigDecimal(txFVan4h.getText()),
+							new BigDecimal(txFFiorino6h.getText()), new BigDecimal(txFVan6h.getText()),
+							new BigDecimal(txFFiorino8h.getText()), new BigDecimal(txFVan8h.getText()));
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if(!tabelaPadrao) {
+					FrameTabela.setInvisible();
+					}
+			}
+		});
+		
+		botaoCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(!tabelaPadrao) {
+				FrameTabela.setInvisible();
+				}
+			}
+		});
+
+		TabelaController.preencheTabelaPadrao(this);
 
 		return panel;
 	}
 
-	/*
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * Events Formating numbers
-	 * =============================================================================
-	 * Getting fields
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
-
-	public TabelaFreteModel getTextfromjfields() {
-
-		try {
-			tabelaFreteObject.setBh10kg(new BigDecimal(txFBHKG.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setBhExcedente(new BigDecimal(txFBHExc.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setRmbh10kg(new BigDecimal(txFRMBHKg.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setRmbhExcedente(new BigDecimal(txFRMBHExc.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setInterior10kg(new BigDecimal(txFInterirorKG.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setInteriorExcedente(new BigDecimal(txFInterirorExc.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setConfinsTaxa(new BigDecimal(txFTxConfins.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setKmFiorino(new BigDecimal(txFKmRodadoFiorino.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setKmVanHR(new BigDecimal(txFKmRodadoVan.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setTaxaFiorino1h(new BigDecimal(txFFiorinoh.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setTaxaVan1h(new BigDecimal(txFVanh.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setTaxaFiorino2h(new BigDecimal(txFFiorino2h.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setTaxaVan2h(new BigDecimal(txFVan2h.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setTaxaFiorino4h(new BigDecimal(txFFiorino4h.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setTaxaVan4h(new BigDecimal(txFVan4h.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setTaxaFiorino6h(new BigDecimal(txFFiorino6h.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setTaxaVan6h(new BigDecimal(txFVan6h.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setTaxaFiorino8h(new BigDecimal(txFFiorino8h.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			tabelaFreteObject.setTaxaVan8h(new BigDecimal(txFVan8h.getText()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return tabelaFreteObject;
+	public void setTxFBHKG(String txFBHKG) {
+		this.txFBHKG.setText(txFBHKG);
 	}
 
-	/*
-	 * Setting fields
-	 * =============================================================================
-	 * ============== Getting fields
-	 */
+	public void setTxFBHExc(String txFBHExc) {
+		this.txFBHExc.setText(txFBHExc);
+	}
 
-	public void setTextfromjfields(TabelaFreteModel textfromjfields) {
+	public void setTxFRMBHKg(String txFRMBHKg) {
+		this.txFRMBHKg.setText(txFRMBHKg);
+	}
 
-			try {
-				txFBHKG.setText(textfromjfields.getBh10kg().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFBHExc.setText(textfromjfields.getBhExcedente().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFRMBHKg.setText(textfromjfields.getRmbh10kg().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFRMBHExc.setText(textfromjfields.getRmbhExcedente().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFInterirorKG.setText(textfromjfields.getInterior10kg().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFInterirorExc.setText(textfromjfields.getInteriorExcedente().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFTxConfins.setText(textfromjfields.getConfinsTaxa().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFKmRodadoFiorino.setText(textfromjfields.getKmFiorino().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFKmRodadoVan.setText(textfromjfields.getKmVanHR().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFFiorinoh.setText(textfromjfields.getTaxaFiorino1h().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFVanh.setText(textfromjfields.getTaxaVan1h().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFFiorino2h.setText(textfromjfields.getTaxaFiorino2h().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFVan2h.setText(textfromjfields.getTaxaVan2h().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFFiorino4h.setText(textfromjfields.getTaxaFiorino4h().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFVan4h.setText(textfromjfields.getTaxaVan4h().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFFiorino6h.setText(textfromjfields.getTaxaFiorino6h().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFVan6h.setText(textfromjfields.getTaxaVan6h().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFFiorino8h.setText(textfromjfields.getTaxaFiorino8h().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				txFVan8h.setText(textfromjfields.getTaxaVan8h().toString());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	public void setTxFRMBHExc(String txFRMBHExc) {
+		this.txFRMBHExc.setText(txFRMBHExc);
+	}
+
+	public void setTxFInterirorKG(String txFInterirorKG) {
+		this.txFInterirorKG.setText(txFInterirorKG);
+	}
+
+	public void setTxFInterirorExc(String txFInterirorExc) {
+		this.txFInterirorExc.setText(txFInterirorExc);
+	}
+
+	public void setTxFTxConfins(String txFTxConfins) {
+		this.txFTxConfins.setText(txFTxConfins);
+	}
+
+	public void setTxFKmRodadoFiorino(String txFKmRodadoFiorino) {
+		this.txFKmRodadoFiorino.setText(txFKmRodadoFiorino);
+	}
+
+	public void setTxFKmRodadoVan(String txFKmRodadoVan) {
+		this.txFKmRodadoVan.setText(txFKmRodadoVan);
+	}
+
+	public void setTxFFiorinoh(String txFFiorinoh) {
+		this.txFFiorinoh.setText(txFFiorinoh);
+	}
+
+	public void setTxFVanh(String txFVanh) {
+		this.txFVanh.setText(txFVanh);
+	}
+
+	public void setTxFFiorino2h(String txFFiorino2h) {
+		this.txFFiorino2h.setText(txFFiorino2h);
+	}
+
+	public void setTxFVan2h(String txFVan2h) {
+		this.txFVan2h.setText(txFVan2h);
+	}
+
+	public void setTxFFiorino4h(String txFFiorino4h) {
+		this.txFFiorino4h.setText(txFFiorino4h);
+	}
+
+	public void setTxFVan4h(String txFVan4h) {
+		this.txFVan4h.setText(txFVan4h);
+	}
+
+	public void setTxFFiorino6h(String txFFiorino6h) {
+		this.txFFiorino6h.setText(txFFiorino6h);
+	}
+
+	public void setTxFVan6h(String txFVan6h) {
+		this.txFVan6h.setText(txFVan6h);
+	}
+
+	public void setTxFFiorino8h(String txFFiorino8h) {
+		this.txFFiorino8h.setText(txFFiorino8h);
+	}
+
+	public void setTxFVan8h(String txFVan8h) {
+		this.txFVan8h.setText(txFVan8h);
+	}
+
+	public void resetaTabelaPadrao() {
+		TabelaController.preencheTabelaPadrao(this);
 	}
 }

@@ -17,34 +17,47 @@ import java.text.ParseException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextPane;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
-import br.com.gellog.controller.TabelaController;
-import br.com.gellog.view.util.CEPConnection;
-import br.com.gellog.view.util.JbtnRoundedBorder;
-import br.com.gellog.view.util.MyJPanel;
+import br.com.gellog.controller.EmpresaController;
+import br.com.gellog.controller.EnderecoController;
+import br.com.gellog.controller.FuncionarioClienteController;
+import br.com.gellog.controller.PessoaController;
+import br.com.gellog.util.CEPConnection;
+import br.com.gellog.view.frame.FrameTabela;
+import br.com.gellog.view.util.GenerateIcon;
 import br.com.gellog.view.util.Events.EmailFormat;
-import br.com.gellog.view.util.Events.FormatPhone;
 import br.com.gellog.view.util.Events.OnlyNumber;
 import br.com.gellog.view.util.Events.OnlyWords;
+import br.com.gellog.view.util.Events.PhoneFormat;
+import br.com.gellog.view.util.jcomponents.JIconButton;
+import br.com.gellog.view.util.jcomponents.JbtnRoundedBorder;
+import br.com.gellog.view.util.jcomponents.MyJPanel;
 
 public class ContentCliente {
+	static private FrameTabela frame;
 	private JPanel panel_DadosGeraisTitulo, panel, panel_Titulo, panel_TituloContato, panel_TituloFrete;
 	private MyJPanel panel_DadosGerais, panel_Endereco, panel_Contato, panel_TabelaFrete;
 	private JLabel lblDadosGerais;
-	private JButton btnAdicionar;
+	private JButton btnAdicionar, botaoVoltar, botaoCancelar, botaoSalvar;
 	private JFormattedTextField txFRazaoSocial, txFCNPJ, txFInscricaoEstadual, txFEmail, txFTelefone, txFCEP, txFCidade,
 			txFEstado, txFBairro, txFLogradouro, txFNumero, txFComplemento, txFNome, txFEmailContato,
 			txFTelefoneContato, txFDescricao;
+	private JTable tbAdicionados;
+	private DefaultTableModel tableModel;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	
 	public JPanel contentCliente() {
 
 		panel = new JPanel();
@@ -52,12 +65,13 @@ public class ContentCliente {
 		panel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0 };
-		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
+		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
 		gbl_panel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
 		panel_DadosGerais = new MyJPanel();
+		panel_DadosGerais.setBorder(new EmptyBorder(0,5,5,5));
 		GridBagConstraints gbc_panel_DadosGerais = new GridBagConstraints();
 		gbc_panel_DadosGerais.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_DadosGerais.fill = GridBagConstraints.BOTH;
@@ -194,13 +208,14 @@ public class ContentCliente {
 		gbc_txFTelefone.gridy = 2;
 		panel_DadosGerais.add(txFTelefone, gbc_txFTelefone);
 		txFTelefone.setColumns(10);
-		txFTelefone.getDocument().addDocumentListener(new FormatPhone(txFTelefone));
+		txFTelefone.getDocument().addDocumentListener(new PhoneFormat(txFTelefone));
 		
 		// DadosGerais
 		// =========================================================================================//
 		// Endereço
 
 		panel_Endereco = new MyJPanel();
+		panel_Endereco.setBorder(new EmptyBorder(0,5,5,5));
 		GridBagConstraints gbc_panel_Endereco = new GridBagConstraints();
 		gbc_panel_Endereco.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_Endereco.fill = GridBagConstraints.BOTH;
@@ -389,6 +404,7 @@ public class ContentCliente {
 		// Contato
 
 		panel_Contato = new MyJPanel();
+		panel_Contato.setBorder(new EmptyBorder(0,5,5,5));
 		GridBagConstraints gbc_panel_Contatos = new GridBagConstraints();
 		gbc_panel_Contatos.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_Contatos.fill = GridBagConstraints.BOTH;
@@ -482,7 +498,7 @@ public class ContentCliente {
 		gbc_txFTelefoneRename.gridy = 1;
 		panel_Contato.add(txFTelefoneContato, gbc_txFTelefoneRename);
 		txFTelefone.setColumns(10);
-		txFTelefoneContato.getDocument().addDocumentListener(new FormatPhone(txFTelefoneContato));
+		txFTelefoneContato.getDocument().addDocumentListener(new PhoneFormat(txFTelefoneContato));
 
 		JLabel lblDescrio = new JLabel("Descrição:");
 		GridBagConstraints gbc_lblDescrio = new GridBagConstraints();
@@ -527,26 +543,58 @@ public class ContentCliente {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
+				tableModel.addRow(new Object[] { txFNome.getText() ,txFEmailContato.getText(), txFTelefoneContato.getText(), txFDescricao.getText(), new ImageIcon("src/main/java/br/com/gellog/view/img/iconExcluir.png") });
+
+				txFNome.setText(null);
+				txFEmailContato.setText(null); 
+				txFTelefoneContato.setText(null); 
+				txFDescricao.setText(null);
+				
+				
+
+				
+				for(int i = 0;i<tableModel.getRowCount();i++)
+				{
+					System.out.println(tableModel.getValueAt(i,0));
+				}
 			}
 		});
+		
+		String[] header = { "Nome", "Email", "Telefone", "Descrição", "Excluir"};
+		tableModel = new DefaultTableModel() {
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
-		JTextPane txPContatosAdicionados = new JTextPane();
-		JScrollPane spContatosAdicionados = new JScrollPane(txPContatosAdicionados);
-		spContatosAdicionados.setPreferredSize(new Dimension(800, 80));
-		GridBagConstraints gbc_txPContatosAdicionados = new GridBagConstraints();
-		gbc_txPContatosAdicionados.gridwidth = 8;
-		gbc_txPContatosAdicionados.insets = new Insets(0, 0, 5, 5);
-		gbc_txPContatosAdicionados.fill = GridBagConstraints.BOTH;
-		gbc_txPContatosAdicionados.gridx = 0;
-		gbc_txPContatosAdicionados.gridy = 4;
-		panel_Contato.add(spContatosAdicionados, gbc_txPContatosAdicionados);
+			@Override
+		    public Class<?> getColumnClass(int column) {
+		        switch (column) {
+		            case 4: return ImageIcon.class;
+		            default: return String.class;
+		        }
+		    }
+		};
+		tbAdicionados = new JTable(tableModel);
+		for (String column : header) {
+			tableModel.addColumn(column);
+		}
+		JScrollPane spAdicionados = new JScrollPane(tbAdicionados);
+		spAdicionados.setPreferredSize(new Dimension(800, 80));
+		GridBagConstraints gbc_txPAdicionados = new GridBagConstraints();
+		gbc_txPAdicionados.gridwidth = 8;
+		gbc_txPAdicionados.insets = new Insets(0, 0, 5, 5);
+		gbc_txPAdicionados.fill = GridBagConstraints.BOTH;
+		gbc_txPAdicionados.gridx = 0;
+		gbc_txPAdicionados.gridy = 4;
+		panel_Contato.add(spAdicionados, gbc_txPAdicionados);
 
 		// contato
 		// ==============================================================================================================//
 		// frete
 
 		panel_TabelaFrete = new MyJPanel();
-
+		panel_TabelaFrete.setBorder(new EmptyBorder(0,5,5,5));
 		GridBagConstraints gbc_panel_TabelaFrete = new GridBagConstraints();
 		gbc_panel_TabelaFrete.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_TabelaFrete.fill = GridBagConstraints.BOTH;
@@ -614,7 +662,8 @@ public class ContentCliente {
 			
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				frame = new FrameTabela();
+						frame.createAndShow();
 			}
 		});
 
@@ -627,8 +676,39 @@ public class ContentCliente {
 				}
 			}
 		});
+		
+		
+		JPanel panel_buttons = new JPanel();
+		panel_buttons.setBorder(new EmptyBorder(20, 0, 0, 0));
+		GridBagConstraints gbc_panel_buttons = new GridBagConstraints();
+		gbc_panel_buttons.gridwidth = 2;
+		gbc_panel_buttons.anchor = GridBagConstraints.SOUTH;
+		gbc_panel_buttons.fill = GridBagConstraints.HORIZONTAL;
+		gbc_panel_buttons.gridx = 0;
+		gbc_panel_buttons.gridy = 4;
+		panel.add(panel_buttons, gbc_panel_buttons);
 
+		botaoVoltar = new JIconButton().botaoVoltar();
+		botaoCancelar = new JIconButton().botaoCancelar();
+		botaoSalvar = new JIconButton().botaoSalvar();
+		panel_buttons.add(botaoVoltar);
+		panel_buttons.add(botaoCancelar);
+		panel_buttons.add(botaoSalvar);
+		botaoSalvar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				EnderecoController.adicionaEndereco(txFBairro.getText(), txFCEP.getText(), txFCidade.getText(), txFComplemento.getText(), txFEstado.getText(), txFLogradouro.getText(), Integer.parseInt(txFNumero.getText()));
+				FuncionarioClienteController.adicionaPessoa(txFDescricao.getText());
+				PessoaController.adicionaPessoa(txFNome.getText(), txFTelefoneContato.getText(), txFEmailContato.getText());
+				EmpresaController.adicionaEmpresa(!btnCostumizarTabelaDe.isSelected(), txFCNPJ.getText(), txFEmail.getText(), txFInscricaoEstadual.getText(), txFRazaoSocial.getText(), txFTelefone.getText());
+			}
+		});
+		
 		return panel;
 	}
-
+	public static FrameTabela getFrame() {
+		return frame;
+	}	
 }

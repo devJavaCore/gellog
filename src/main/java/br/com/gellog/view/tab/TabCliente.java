@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import br.com.gellog.view.tab.content.ContentCliente;
 import br.com.gellog.view.util.CreateTabStructureAndContent;
 import br.com.gellog.view.util.GenerateIcon;
-import br.com.gellog.view.util.JIconButton;
 import br.com.gellog.view.util.JXTabbedPane;
 
 public class TabCliente extends CreateTabStructureAndContent {
@@ -35,9 +34,7 @@ public class TabCliente extends CreateTabStructureAndContent {
 
 		createTabStructureAndContent.panel_north.add(jButtonAddCliente, BorderLayout.EAST);
 		createTabStructureAndContent.panel_center.add(new ContentCliente().contentCliente());
-		createTabStructureAndContent.panel_south.add(new JIconButton().botaoVoltar());
-		createTabStructureAndContent.panel_south.add(new JIconButton().botaoCancelar());
-		createTabStructureAndContent.panel_south.add(new JIconButton().botaoSalvar());
+		
 		
 	}
 }

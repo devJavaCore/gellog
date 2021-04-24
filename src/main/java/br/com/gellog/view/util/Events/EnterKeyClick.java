@@ -4,7 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import br.com.gellog.view.util.JIconButton;
+import br.com.gellog.view.util.jcomponents.JIconButton;
 
 public class EnterKeyClick implements KeyListener{
 	

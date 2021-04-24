@@ -5,16 +5,16 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import br.com.gellog.model.People;
+import br.com.gellog.model.Pessoa;
 
 public class PeopleQueries {
-	private People people;
-	private List<People> listPeople;
+	private Pessoa people;
+	private List<Pessoa> listPeople;
 	private EntityManager emf = new JpaEMF().getEntityManager();
-	public People idSearch(int id) {
+	public Pessoa idSearch(int id) {
 		try {
 			emf = new JpaEMF().getEntityManager();
-			people = emf.find(People.class, id);
+			people = emf.find(Pessoa.class, id);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,11 +35,11 @@ public class PeopleQueries {
 		}
 	}
 
-	public List<People> nameSearch(String name) {
+	public List<Pessoa> nameSearch(String name) {
 		try {
 			emf = new JpaEMF().getEntityManager();
-			TypedQuery<People> query = emf.createQuery("SELECT o FROM People o WHERE o.name = (:pName)", People.class);
-			listPeople = (List<People>) query.setParameter("pName", name).getResultList();
+			TypedQuery<Pessoa> query = emf.createQuery("SELECT o FROM People o WHERE o.name = (:pName)", Pessoa.class);
+			listPeople = (List<Pessoa>) query.setParameter("pName", name).getResultList();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -47,11 +47,11 @@ public class PeopleQueries {
 		return listPeople;
 	}
 
-	public List<People> tableSearch() {
+	public List<Pessoa> tableSearch() {
 		try {
 			emf = new JpaEMF().getEntityManager();
-			TypedQuery<People> query = emf.createQuery("SELECT o FROM People o", People.class);
-			listPeople = (List<People>) query.getResultList();
+			TypedQuery<Pessoa> query = emf.createQuery("SELECT o FROM People o", Pessoa.class);
+			listPeople = (List<Pessoa>) query.getResultList();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

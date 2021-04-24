@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,36 +21,31 @@ public class TabelaFreteModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	// (link to login)
-	// registroPor
-	// modificadoPor
-
 	private BigDecimal bh10kg, rmbh10kg, interior10kg, bhExcedente, rmbhExcedente, interiorExcedente, confinsTaxa,
 			kmFiorino, kmVanHR, taxaFiorino1h, taxaVan1h, taxaFiorino2h, taxaVan2h, taxaFiorino4h, taxaVan4h, taxaFiorino6h, taxaVan6h, taxaFiorino8h, taxaVan8h;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar date;
-
+	
+	@ManyToOne
+	@JoinColumn(name = "LOGIN_ID")
+	private Login login;	
+	
+	@OneToOne(mappedBy="tabela")	 
+	private Empresa empresa;
+	 
 	public TabelaFreteModel() {
 		super();
 		date = Calendar.getInstance();
 	}
 
-	public TabelaFreteModel(BigDecimal bh10kg, BigDecimal rmbh10kg, BigDecimal interior10kg, BigDecimal bhExcedente,
-			BigDecimal rmbhExcedente, BigDecimal interiorExcedente, BigDecimal confinsTaxa, BigDecimal kmFiorino,
-			BigDecimal kmVanHR) {
-		super();
-		this.bh10kg = bh10kg;
-		this.rmbh10kg = rmbh10kg;
-		this.interior10kg = interior10kg;
-		this.bhExcedente = bhExcedente;
-		this.rmbhExcedente = rmbhExcedente;
-		this.interiorExcedente = interiorExcedente;
-		this.confinsTaxa = confinsTaxa;
-		this.kmFiorino = kmFiorino;
-		this.kmVanHR = kmVanHR;
-		date = Calendar.getInstance();
+	public Integer getId() {
+		return id;
 	}
-	
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public BigDecimal getBh10kg() {
 		return bh10kg;
 	}
@@ -118,22 +116,6 @@ public class TabelaFreteModel {
 
 	public void setKmVanHR(BigDecimal kmVanHR) {
 		this.kmVanHR = kmVanHR;
-	}
-
-	public Calendar getDate() {
-		return date;
-	}
-
-	public void setDate(Calendar date) {
-		this.date = date;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-	
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public BigDecimal getTaxaFiorino1h() {
@@ -216,16 +198,28 @@ public class TabelaFreteModel {
 		this.taxaVan8h = taxaVan8h;
 	}
 
-	@Override
-	public String toString() {
-		return "TabelaFreteModel [id=" + id + ", bh10kg=" + bh10kg + ", rmbh10kg=" + rmbh10kg + ", interior10kg="
-				+ interior10kg + ", bhExcedente=" + bhExcedente + ", rmbhExcedente=" + rmbhExcedente
-				+ ", interiorExcedente=" + interiorExcedente + ", confinsTaxa=" + confinsTaxa + ", kmFiorino="
-				+ kmFiorino + ", kmVanHR=" + kmVanHR + ", taxaFiorino1h=" + taxaFiorino1h + ", taxaVan1h=" + taxaVan1h
-				+ ", taxaFiorino2h=" + taxaFiorino2h + ", taxaVan2h=" + taxaVan2h + ", taxaFiorino4h=" + taxaFiorino4h
-				+ ", taxaVan4h=" + taxaVan4h + ", taxaFiorino6h=" + taxaFiorino6h + ", taxaVan6h=" + taxaVan6h
-				+ ", taxaFiorino8h=" + taxaFiorino8h + ", taxaVan8h=" + taxaVan8h + ", date=" + date + "]";
-	}	
-	
-	
-}
+	public Calendar getDate() {
+		return date;
+	}
+
+	public void setDate(Calendar date) {
+		this.date = date;
+	}
+
+		public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}
+
+	public Login getLogin() {
+		return login;
+	}
+
+	public void setLogin(Login login) {
+		this.login = login;
+	}
+
+	}
