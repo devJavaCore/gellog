@@ -5,7 +5,7 @@ import br.com.gellog.model.Pessoa;
 
 public class PessoaController {
 	private static Pessoa pessoa;
-	static public void adicionaPessoa(String nome, String telefone, String email) {
+	static public void pessoa(String nome, String telefone, String email) {
 		
 		pessoa = new Pessoa();
 		pessoa.setNome(nome);

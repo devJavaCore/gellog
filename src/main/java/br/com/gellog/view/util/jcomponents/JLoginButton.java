@@ -56,7 +56,7 @@ public class JLoginButton extends JButton implements ActionListener, PropertyCha
 			progress = 0;
 			setProgress(0);
 			try {
-
+				
 				while (progress < 100 && !isCancelled()) {
 					// Sleep for up to one second.
 					Thread.sleep(random.nextInt(300));
@@ -68,26 +68,34 @@ public class JLoginButton extends JButton implements ActionListener, PropertyCha
 			}
 			return null;
 		}
+		
 	}
-
+	
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		// TODO Auto-generated method stub
-		if ("progress" == evt.getPropertyName()) {
-			int progress = (Integer) evt.getNewValue();
-			progressMonitor.setProgress(progress);
-			String message = String.format("Completado %d%%.\n", progress);
-			progressMonitor.setNote(message);
-			taskOutput.append(message);
-			if (progressMonitor.isCanceled() || task.isDone()) {
-				Toolkit.getDefaultToolkit().beep();
-				if (progressMonitor.isCanceled()) {
-					task.cancel(true);
-					taskOutput.append("Tarefa Cancelada.\n");
-				} else {
-					taskOutput.append("Tarefa Completa.\n");
+		
+		try {
+			if ("progress" == evt.getPropertyName()) {
+				int progress = (Integer) evt.getNewValue();
+				progressMonitor.setProgress(progress);
+				String message = String.format("Completado %d%%.\n", progress);
+				progressMonitor.setNote(message);
+				taskOutput.append(message);
+				if (progressMonitor.isCanceled() || task.isDone()) {
+					Toolkit.getDefaultToolkit().beep();
+					if (progressMonitor.isCanceled()) {
+						task.cancel(true);
+						taskOutput.append("Tarefa Cancelada.\n");
+					} else {
+						taskOutput.append("Tarefa Completa.\n");
+					}
 				}
 			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

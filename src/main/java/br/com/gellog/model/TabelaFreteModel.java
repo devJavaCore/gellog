@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,19 +19,21 @@ public class TabelaFreteModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+	private boolean tabelaPadrao;
 	private BigDecimal bh10kg, rmbh10kg, interior10kg, bhExcedente, rmbhExcedente, interiorExcedente, confinsTaxa,
-			kmFiorino, kmVanHR, taxaFiorino1h, taxaVan1h, taxaFiorino2h, taxaVan2h, taxaFiorino4h, taxaVan4h, taxaFiorino6h, taxaVan6h, taxaFiorino8h, taxaVan8h;
+			kmFiorino, kmVanHR, taxaFiorino1h, taxaVan1h, taxaFiorino2h, taxaVan2h, taxaFiorino4h, taxaVan4h,
+			taxaFiorino6h, taxaVan6h, taxaFiorino8h, taxaVan8h;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar date;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "LOGIN_ID")
-	private Login login;	
-	
-	@OneToOne(mappedBy="tabela")	 
+	private Login login;
+
+	@ManyToOne
+	@JoinColumn(name = "EMPRESA_ID")
 	private Empresa empresa;
-	 
+
 	public TabelaFreteModel() {
 		super();
 		date = Calendar.getInstance();
@@ -206,7 +207,7 @@ public class TabelaFreteModel {
 		this.date = date;
 	}
 
-		public Empresa getEmpresa() {
+	public Empresa getEmpresa() {
 		return empresa;
 	}
 
@@ -222,4 +223,12 @@ public class TabelaFreteModel {
 		this.login = login;
 	}
 
+	public boolean isTabelaPadrao() {
+		return tabelaPadrao;
 	}
+
+	public void setTabelaPadrao(boolean tabelaPadrao) {
+		this.tabelaPadrao = tabelaPadrao;
+	}
+
+}

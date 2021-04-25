@@ -7,7 +7,7 @@ import br.com.gellog.model.FuncionarioCliente;
 
 public class FuncionarioClienteController {
 	private static FuncionarioCliente funcionario;
-	static public void adicionaPessoa(String descricao) {
+	static public void funcionario(String descricao) {
 		funcionario = new FuncionarioCliente();
 		
 		funcionario.setDescricao(descricao);

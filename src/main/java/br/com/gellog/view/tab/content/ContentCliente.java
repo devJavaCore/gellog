@@ -17,7 +17,6 @@ import java.text.ParseException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -26,8 +25,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
@@ -37,7 +37,6 @@ import br.com.gellog.controller.FuncionarioClienteController;
 import br.com.gellog.controller.PessoaController;
 import br.com.gellog.util.CEPConnection;
 import br.com.gellog.view.frame.FrameTabela;
-import br.com.gellog.view.util.GenerateIcon;
 import br.com.gellog.view.util.Events.EmailFormat;
 import br.com.gellog.view.util.Events.OnlyNumber;
 import br.com.gellog.view.util.Events.OnlyWords;
@@ -58,6 +57,7 @@ public class ContentCliente {
 	private JTable tbAdicionados;
 	private DefaultTableModel tableModel;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+
 	public JPanel contentCliente() {
 
 		panel = new JPanel();
@@ -71,7 +71,7 @@ public class ContentCliente {
 		panel.setLayout(gbl_panel);
 
 		panel_DadosGerais = new MyJPanel();
-		panel_DadosGerais.setBorder(new EmptyBorder(0,5,5,5));
+		panel_DadosGerais.setBorder(new EmptyBorder(0, 5, 5, 5));
 		GridBagConstraints gbc_panel_DadosGerais = new GridBagConstraints();
 		gbc_panel_DadosGerais.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_DadosGerais.fill = GridBagConstraints.BOTH;
@@ -209,13 +209,13 @@ public class ContentCliente {
 		panel_DadosGerais.add(txFTelefone, gbc_txFTelefone);
 		txFTelefone.setColumns(10);
 		txFTelefone.getDocument().addDocumentListener(new PhoneFormat(txFTelefone));
-		
+
 		// DadosGerais
 		// =========================================================================================//
 		// Endereço
 
 		panel_Endereco = new MyJPanel();
-		panel_Endereco.setBorder(new EmptyBorder(0,5,5,5));
+		panel_Endereco.setBorder(new EmptyBorder(0, 5, 5, 5));
 		GridBagConstraints gbc_panel_Endereco = new GridBagConstraints();
 		gbc_panel_Endereco.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_Endereco.fill = GridBagConstraints.BOTH;
@@ -269,10 +269,11 @@ public class ContentCliente {
 		txFCEP.setColumns(10);
 		txFCEP.addFocusListener(new FocusListener() {
 			CEPConnection conectaCep = new CEPConnection();
+
 			@Override
 			public void focusLost(FocusEvent e) {
 				// TODO Auto-generated method stub
-				if(txFCEP.getText().length() > 7) {
+				if (txFCEP.getText().length() > 7) {
 					try {
 						conectaCep.buscarCep(txFCEP.getText());
 					} catch (Exception event) {
@@ -280,20 +281,19 @@ public class ContentCliente {
 						event.printStackTrace();
 					}
 					txFLogradouro.setText(conectaCep.getLogradouro());
-			        txFBairro.setText(conectaCep.getBairro());
-			        txFCidade.setText(conectaCep.getCidade());
-			        txFEstado.setText(conectaCep.getUf());
+					txFBairro.setText(conectaCep.getBairro());
+					txFCidade.setText(conectaCep.getCidade());
+					txFEstado.setText(conectaCep.getUf());
 				}
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
-	
+
 		JLabel lblCidade = new JLabel("Cidade:");
 		GridBagConstraints gbc_lblCidade = new GridBagConstraints();
 		gbc_lblCidade.anchor = GridBagConstraints.EAST;
@@ -380,7 +380,6 @@ public class ContentCliente {
 		panel_Endereco.add(txFNumero, gbc_txFNumero);
 		txFNumero.setColumns(10);
 		txFNumero.getDocument().addDocumentListener(new OnlyNumber(txFNumero));
-		
 
 		JLabel lblComplemento = new JLabel("Complemento:");
 		GridBagConstraints gbc_lblComplemento = new GridBagConstraints();
@@ -404,7 +403,7 @@ public class ContentCliente {
 		// Contato
 
 		panel_Contato = new MyJPanel();
-		panel_Contato.setBorder(new EmptyBorder(0,5,5,5));
+		panel_Contato.setBorder(new EmptyBorder(0, 5, 5, 5));
 		GridBagConstraints gbc_panel_Contatos = new GridBagConstraints();
 		gbc_panel_Contatos.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_Contatos.fill = GridBagConstraints.BOTH;
@@ -527,7 +526,7 @@ public class ContentCliente {
 		gbc_btnAdicionar.gridx = 6;
 		gbc_btnAdicionar.gridy = 3;
 		panel_Contato.add(btnAdicionar, gbc_btnAdicionar);
-		
+
 		btnAdicionar.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -539,41 +538,37 @@ public class ContentCliente {
 			}
 		});
 		btnAdicionar.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
-				tableModel.addRow(new Object[] { txFNome.getText() ,txFEmailContato.getText(), txFTelefoneContato.getText(), txFDescricao.getText(), new ImageIcon("src/main/java/br/com/gellog/view/img/iconExcluir.png") });
+
+				tableModel.addRow(new Object[] { txFNome.getText(), txFEmailContato.getText(),
+						txFTelefoneContato.getText(), txFDescricao.getText(),
+						new ImageIcon("src/main/java/br/com/gellog/view/img/iconExcluir.png") });
 
 				txFNome.setText(null);
-				txFEmailContato.setText(null); 
-				txFTelefoneContato.setText(null); 
+				txFEmailContato.setText(null);
+				txFTelefoneContato.setText(null);
 				txFDescricao.setText(null);
-				
-				
-
-				
-				for(int i = 0;i<tableModel.getRowCount();i++)
-				{
-					System.out.println(tableModel.getValueAt(i,0));
-				}
 			}
 		});
-		
-		String[] header = { "Nome", "Email", "Telefone", "Descrição", "Excluir"};
+
+		String[] header = { "Nome", "Email", "Telefone", "Descrição", "Excluir" };
 		tableModel = new DefaultTableModel() {
-		    /**
+			/**
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
-		    public Class<?> getColumnClass(int column) {
-		        switch (column) {
-		            case 4: return ImageIcon.class;
-		            default: return String.class;
-		        }
-		    }
+			public Class<?> getColumnClass(int column) {
+				switch (column) {
+				case 4:
+					return ImageIcon.class;
+				default:
+					return String.class;
+				}
+			}
 		};
 		tbAdicionados = new JTable(tableModel);
 		for (String column : header) {
@@ -589,12 +584,28 @@ public class ContentCliente {
 		gbc_txPAdicionados.gridy = 4;
 		panel_Contato.add(spAdicionados, gbc_txPAdicionados);
 
+		tbAdicionados.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				if (tbAdicionados.getSelectedColumn() == 4) {
+					try {
+						tableModel.removeRow(tbAdicionados.getSelectedRow());
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+
 		// contato
 		// ==============================================================================================================//
 		// frete
 
 		panel_TabelaFrete = new MyJPanel();
-		panel_TabelaFrete.setBorder(new EmptyBorder(0,5,5,5));
+		panel_TabelaFrete.setBorder(new EmptyBorder(0, 5, 5, 5));
 		GridBagConstraints gbc_panel_TabelaFrete = new GridBagConstraints();
 		gbc_panel_TabelaFrete.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_TabelaFrete.fill = GridBagConstraints.BOTH;
@@ -659,11 +670,12 @@ public class ContentCliente {
 			}
 		});
 		btnCostumizarTabelaDe.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				
 				frame = new FrameTabela();
-						frame.createAndShow();
+				frame.createAndShow();
 			}
 		});
 
@@ -676,8 +688,7 @@ public class ContentCliente {
 				}
 			}
 		});
-		
-		
+
 		JPanel panel_buttons = new JPanel();
 		panel_buttons.setBorder(new EmptyBorder(20, 0, 0, 0));
 		GridBagConstraints gbc_panel_buttons = new GridBagConstraints();
@@ -695,20 +706,31 @@ public class ContentCliente {
 		panel_buttons.add(botaoCancelar);
 		panel_buttons.add(botaoSalvar);
 		botaoSalvar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				EnderecoController.adicionaEndereco(txFBairro.getText(), txFCEP.getText(), txFCidade.getText(), txFComplemento.getText(), txFEstado.getText(), txFLogradouro.getText(), Integer.parseInt(txFNumero.getText()));
-				FuncionarioClienteController.adicionaPessoa(txFDescricao.getText());
-				PessoaController.adicionaPessoa(txFNome.getText(), txFTelefoneContato.getText(), txFEmailContato.getText());
-				EmpresaController.adicionaEmpresa(!btnCostumizarTabelaDe.isSelected(), txFCNPJ.getText(), txFEmail.getText(), txFInscricaoEstadual.getText(), txFRazaoSocial.getText(), txFTelefone.getText());
+				EnderecoController.endereco(txFBairro.getText(), txFCEP.getText(), txFCidade.getText(),
+						txFComplemento.getText(), txFEstado.getText(), txFLogradouro.getText(),
+						Integer.parseInt(txFNumero.getText()));
+
+				EmpresaController.empresa(!btnCostumizarTabelaDe.isSelected(), txFCNPJ.getText(), txFEmail.getText(),
+						txFInscricaoEstadual.getText(), txFRazaoSocial.getText(), txFTelefone.getText());
+				
+				for (int i = 0; i < tableModel.getRowCount(); i++) {
+
+					PessoaController.pessoa((String) tableModel.getValueAt(i, 0), (String) tableModel.getValueAt(i, 2),
+							(String) tableModel.getValueAt(i, 1));
+
+					FuncionarioClienteController.funcionario((String) tableModel.getValueAt(i, 3));
+				}
 			}
 		});
-		
+
 		return panel;
 	}
+
 	public static FrameTabela getFrame() {
 		return frame;
-	}	
+	}
 }

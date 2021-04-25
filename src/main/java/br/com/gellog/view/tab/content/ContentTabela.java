@@ -39,9 +39,8 @@ public class ContentTabela {
 	private JPanel panel_TxParadoTitulo;
 	private JLabel lblTaxaPorTempo;
 	private MyJPanel panel_CalculoPeso, panel_CalculoKm, panel_txParado;
-
 	public JPanel contentTabela(boolean tabelaPadrao) {
-
+		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(240, 240, 240));
 		panel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
@@ -559,5 +558,5 @@ public class ContentTabela {
 
 	public void resetaTabelaPadrao() {
 		TabelaController.preencheTabelaPadrao(this);
-	}
+	}	
 }

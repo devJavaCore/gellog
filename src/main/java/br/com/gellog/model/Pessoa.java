@@ -28,6 +28,9 @@ public class Pessoa {
 	@OneToOne(mappedBy = "pessoa")
 	private Login login;
 	
+	@OneToOne
+	private Endereco endereco;
+	
 	
 	@OneToOne(mappedBy = "pessoa")
 	private FuncionarioCliente funcionarioCliente;
@@ -148,4 +151,21 @@ public class Pessoa {
 	public void setLogin(Login login) {
 		this.login = login;
 	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	public FuncionarioCliente getFuncionarioCliente() {
+		return funcionarioCliente;
+	}
+
+	public void setFuncionarioCliente(FuncionarioCliente funcionarioCliente) {
+		this.funcionarioCliente = funcionarioCliente;
+	}
+	
 }

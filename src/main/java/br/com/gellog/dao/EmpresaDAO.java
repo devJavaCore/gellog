@@ -14,7 +14,7 @@ public class EmpresaDAO {
 		try {
 			emf = new JpaEMF().getEntityManager();
 		
-			TypedQuery<Empresa> query = emf.createQuery("SELECT o FROM Empresa o order by o.id desc", Empresa.class);
+			TypedQuery<Empresa> query = emf.createQuery("SELECT o FROM Empresa o ORDER BY o.id DESC", Empresa.class);
 			query.setMaxResults(1);
 			result =  query.getSingleResult();
 		} catch (Exception e) {
@@ -22,5 +22,17 @@ public class EmpresaDAO {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	public void adiconaEmpresa(Empresa empresa) {
+		try {
+			emf = new JpaEMF().getEntityManager();
+			emf.getTransaction().begin();
+			emf.persist(empresa);
+			emf.getTransaction().commit();
+			emf.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

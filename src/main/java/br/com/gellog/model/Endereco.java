@@ -22,13 +22,12 @@ public class Endereco {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar date;
 	
-	@OneToOne
-	private Login login;
+	@OneToOne(mappedBy="endereco")
+	private Pessoa pessoa;
 	
 	@OneToOne(mappedBy="endereco")	 
 	private Empresa empresa;
 	 
-	
 	String cep, cidade, estado, bairro, logradouro, complemento;
 	Integer numero;
 	public Endereco() {
@@ -46,12 +45,6 @@ public class Endereco {
 	}
 	public void setDate(Calendar date) {
 		this.date = date;
-	}
-	public Login getLogin() {
-		return login;
-	}
-	public void setLogin(Login login) {
-		this.login = login;
 	}
 	public Empresa getEmpresa() {
 		return empresa;

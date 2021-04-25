@@ -23,24 +23,24 @@ public class Empresa {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar date;
-	
+	private boolean tabelaPadrao;
 	private String nome, cnpj, inscricaoEstadual, telefone, email;
-	
+
 	@OneToMany(mappedBy = "empresa")
 	private List<FuncionarioCliente> funcionario = new ArrayList<>();
-		 
-	 @OneToOne
-	 private Endereco endereco;
-	 
-	 @OneToOne
-	 private TabelaFreteModel tabela;
-	 
-	 @ManyToOne
-		@JoinColumn(name = "LOGIN_ID")
-		private Login login;
+
+	@OneToOne
+	private Endereco endereco;
+
+	@OneToMany(mappedBy = "empresa")
+	private List<TabelaFreteModel> tabela = new ArrayList<>();
+
+	@ManyToOne
+	@JoinColumn(name = "LOGIN_ID")
+	private Login login;
 
 	public Empresa() {
 		super();
@@ -61,6 +61,14 @@ public class Empresa {
 
 	public void setDate(Calendar date) {
 		this.date = date;
+	}
+
+	public boolean isTabelaPadrao() {
+		return tabelaPadrao;
+	}
+
+	public void setTabelaPadrao(boolean tabelaPadrao) {
+		this.tabelaPadrao = tabelaPadrao;
 	}
 
 	public String getNome() {
@@ -103,6 +111,14 @@ public class Empresa {
 		this.email = email;
 	}
 
+	public List<FuncionarioCliente> getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(List<FuncionarioCliente> funcionario) {
+		this.funcionario = funcionario;
+	}
+
 	public Endereco getEndereco() {
 		return endereco;
 	}
@@ -111,11 +127,11 @@ public class Empresa {
 		this.endereco = endereco;
 	}
 
-	public TabelaFreteModel getTabela() {
+	public List<TabelaFreteModel> getTabela() {
 		return tabela;
 	}
 
-	public void setTabela(TabelaFreteModel tabela) {
+	public void setTabela(List<TabelaFreteModel> tabela) {
 		this.tabela = tabela;
 	}
 
@@ -127,12 +143,4 @@ public class Empresa {
 		this.login = login;
 	}
 
-	public List<FuncionarioCliente> getFuncionario() {
-		return funcionario;
-	}
-
-	public void setFuncionario(List<FuncionarioCliente> funcionario) {
-		this.funcionario = funcionario;
-	}
-	
 }

@@ -13,15 +13,14 @@ import br.com.gellog.model.TabelaLogin;
 import br.com.gellog.view.util.CreateAndShowGUI;
 
 public class LoginController {
-	private List<Login> loginList;
+	private List<Login> loginCheck;
 	static private Login ultimoLogado;
 	public boolean login(final String user, final String password) {
-		loginList = new LoginDAO().resultList();
-		try {
-			for (Login login : loginList) {
-				if (login.getUserName().equals(user) && login.getPassword().equals(password)) {
-					new SimpleQueries().simpleInsert(new TabelaLogin(login));
-					ultimoLogado = login;
+		loginCheck = new LoginDAO().loginResult(user, password);
+		try {	
+				if (loginCheck != null) {
+					new SimpleQueries().simpleInsert(new TabelaLogin(loginCheck));
+					ultimoLogado = loginCheck.get(0);
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							new CreateAndShowGUI().createAndShowGUI();
@@ -29,8 +28,6 @@ public class LoginController {
 					});
 					return true;
 				}
-
-			}
 		} catch (HeadlessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

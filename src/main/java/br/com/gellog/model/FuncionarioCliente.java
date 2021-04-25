@@ -26,9 +26,7 @@ public class FuncionarioCliente {
 	
 	@OneToOne
 	private  Pessoa pessoa;
-	
-
-	
+		
 	@ManyToOne
 	@JoinColumn(name = "EMPRESA_ID")
 	private Empresa empresa;
@@ -79,6 +77,7 @@ public class FuncionarioCliente {
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
 	}
-	
+
+
 	
 }
