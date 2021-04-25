@@ -2,6 +2,7 @@ package br.com.gellog.controller;
 
 import java.math.BigDecimal;
 
+import br.com.gellog.dao.EmpresaDAO;
 import br.com.gellog.dao.SimpleQueries;
 import br.com.gellog.dao.TabelaFreteDAO;
 import br.com.gellog.model.TabelaFreteModel;
@@ -11,12 +12,12 @@ public class TabelaController {
 	private static TabelaFreteModel tabelaFrete;
 	private static ContentTabela campos;
 
-	static public void updateTabelaPadrao(boolean tabelaPadrao, BigDecimal bh10kg,
-			BigDecimal bhExcedente, BigDecimal rmbh10Kg, BigDecimal rmbhExcedente, BigDecimal interior10kg,
-			BigDecimal interiorExcedente, BigDecimal confinsTaxa, BigDecimal kmFiorino, BigDecimal kmVanHR,
-			BigDecimal taxaFiorino1h, BigDecimal taxaVan1h, BigDecimal taxaFiorino2h, BigDecimal taxaVan2h,
-			BigDecimal taxaFiorino4h, BigDecimal taxaVan4h, BigDecimal taxaFiorino6h, BigDecimal taxaVan6h,
-			BigDecimal taxaFiorino8h, BigDecimal taxaVan8h) {
+	static public void updateTabelaPadrao(boolean tabelaPadrao, BigDecimal bh10kg, BigDecimal bhExcedente,
+			BigDecimal rmbh10Kg, BigDecimal rmbhExcedente, BigDecimal interior10kg, BigDecimal interiorExcedente,
+			BigDecimal confinsTaxa, BigDecimal kmFiorino, BigDecimal kmVanHR, BigDecimal taxaFiorino1h,
+			BigDecimal taxaVan1h, BigDecimal taxaFiorino2h, BigDecimal taxaVan2h, BigDecimal taxaFiorino4h,
+			BigDecimal taxaVan4h, BigDecimal taxaFiorino6h, BigDecimal taxaVan6h, BigDecimal taxaFiorino8h,
+			BigDecimal taxaVan8h) {
 		tabelaFrete = new TabelaFreteModel();
 
 		tabelaFrete.setTabelaPadrao(tabelaPadrao);
@@ -39,18 +40,24 @@ public class TabelaController {
 		tabelaFrete.setTaxaVan6h(taxaVan6h);
 		tabelaFrete.setTaxaFiorino8h(taxaFiorino8h);
 		tabelaFrete.setTaxaVan8h(taxaVan8h);
-		
-		
-		
-		
-		
 		tabelaFrete.setLogin(LoginController.getUltimoLogado());
-
+		
+		tabelaFrete.setEmpresa(new EmpresaDAO().lastResult());
+		if(tabelaPadrao) {
 			new SimpleQueries().simpleInsert(tabelaFrete);
+		} else {
+			EmpresaController.setTabelaFrete(tabelaFrete);
+		}
 	}
 
 	static public void preencheTabelaPadrao(ContentTabela contentTabela) {
-		tabelaFrete = new TabelaFreteDAO().tabelaPadrao().get(0);
+
+		try {
+			tabelaFrete = new TabelaFreteDAO().tabelaPadrao().get(0);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		campos = contentTabela;
 
 		try {

@@ -3,11 +3,14 @@ package br.com.gellog.controller;
 import br.com.gellog.dao.EmpresaDAO;
 import br.com.gellog.dao.EnderecoDAO;
 import br.com.gellog.dao.FuncionarioClienteDAO;
+import br.com.gellog.dao.SimpleQueries;
 import br.com.gellog.dao.TabelaFreteDAO;
 import br.com.gellog.model.Empresa;
+import br.com.gellog.model.TabelaFreteModel;
 
 public class EmpresaController {
 	private static Empresa empresa;
+	private static TabelaFreteModel tabela;
 
 	static public void empresa(boolean tabelaPadrao, String cnpj, String email, String inscricaoEstadual, String RazaoSocial,
 			String telefone) {
@@ -22,6 +25,7 @@ public class EmpresaController {
 		empresa.setFuncionario(new FuncionarioClienteDAO().resultList());
 		
 		if(!tabelaPadrao) {
+		new SimpleQueries().simpleInsert(tabela);
 		empresa.setTabela(new TabelaFreteDAO().lastResultEmpresa());
 		empresa.setTabelaPadrao(false);
 		} else {
@@ -32,5 +36,17 @@ public class EmpresaController {
 		empresa.setLogin(LoginController.getUltimoLogado());
 
 		new EmpresaDAO().adiconaEmpresa(empresa);
+		
 	}
+
+	public static TabelaFreteModel getTabelaFrete() {
+		return tabela;
+	}
+
+	public static void setTabelaFrete(TabelaFreteModel tabelaFrete) {
+		tabela = tabelaFrete;
+	}
+
+
+	
 }

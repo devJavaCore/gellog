@@ -1,7 +1,6 @@
 package br.com.gellog.controller;
 
 import java.awt.HeadlessException;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -13,14 +12,14 @@ import br.com.gellog.model.TabelaLogin;
 import br.com.gellog.view.util.CreateAndShowGUI;
 
 public class LoginController {
-	private List<Login> loginCheck;
+	private Login loginCheck;
 	static private Login ultimoLogado;
 	public boolean login(final String user, final String password) {
 		loginCheck = new LoginDAO().loginResult(user, password);
 		try {	
 				if (loginCheck != null) {
 					new SimpleQueries().simpleInsert(new TabelaLogin(loginCheck));
-					ultimoLogado = loginCheck.get(0);
+					ultimoLogado = loginCheck;
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							new CreateAndShowGUI().createAndShowGUI();

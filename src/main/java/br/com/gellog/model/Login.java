@@ -10,8 +10,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -46,9 +44,8 @@ public class Login {
 	@OneToMany(mappedBy = "login")
 	private List<Empresa> empresa = new ArrayList<>();
 
-	@ManyToOne
-	@JoinColumn(name = "TABELALOGIN_ID")
-	private TabelaLogin tabelaLogin;
+	@OneToMany(mappedBy = "login")
+	private List<TabelaLogin> tabelaLogin = new ArrayList<>();
 
 	public Login() {
 		super();
@@ -119,12 +116,11 @@ public class Login {
 		this.empresa = empresa;
 	}
 
-	public TabelaLogin getTabelaLogin() {
+	public List<TabelaLogin> getTabelaLogin() {
 		return tabelaLogin;
 	}
 
-	public void setTabelaLogin(TabelaLogin tabelaLogin) {
+	public void setTabelaLogin(List<TabelaLogin> tabelaLogin) {
 		this.tabelaLogin = tabelaLogin;
 	}
-
 }

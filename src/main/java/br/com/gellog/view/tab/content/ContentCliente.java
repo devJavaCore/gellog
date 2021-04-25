@@ -714,7 +714,7 @@ public class ContentCliente {
 						txFComplemento.getText(), txFEstado.getText(), txFLogradouro.getText(),
 						Integer.parseInt(txFNumero.getText()));
 
-				EmpresaController.empresa(!btnCostumizarTabelaDe.isSelected(), txFCNPJ.getText(), txFEmail.getText(),
+				EmpresaController.empresa(!rdbtnCostumizarTabela.isSelected(), txFCNPJ.getText(), txFEmail.getText(),
 						txFInscricaoEstadual.getText(), txFRazaoSocial.getText(), txFTelefone.getText());
 				
 				for (int i = 0; i < tableModel.getRowCount(); i++) {

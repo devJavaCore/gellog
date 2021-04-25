@@ -1,14 +1,13 @@
 package br.com.gellog.model;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,14 +23,15 @@ public class TabelaLogin {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar date;
 	
-	@OneToMany(mappedBy = "tabelaLogin")
-	private List<Login> login = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name = "LOGIN_ID")
+	private Login login;
 	
 	public TabelaLogin() {
 		super();
 	}
 	
-	public TabelaLogin(List<Login> login) {
+	public TabelaLogin(Login login) {
 		super();
 		this.login = login;
 		date = Calendar.getInstance();
@@ -53,13 +53,11 @@ public class TabelaLogin {
 		this.date = date;
 	}
 
-	public List<Login> getLogin() {
+	public Login getLogin() {
 		return login;
 	}
 
-	public void setLogin(List<Login> login) {
+	public void setLogin(Login login) {
 		this.login = login;
 	}
-	
-	
 }
