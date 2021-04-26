@@ -58,8 +58,10 @@ public class TabelaController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+				
+		
 		campos = contentTabela;
-
+		
 		try {
 			campos.setTxFBHKG(tabelaFrete.getBh10kg().toString());
 		} catch (Exception e) {
@@ -175,4 +177,5 @@ public class TabelaController {
 			e.printStackTrace();
 		}
 	}
+	
 }

@@ -28,7 +28,7 @@ public class OnlyWords implements DocumentListener {
 					public void run() {
 						// TODO Auto-generated method stub
 
-						if (!StringUtils.isAlpha(jFormattedTextField.getText())) {
+						if (!StringUtils.isAlphaSpace(jFormattedTextField.getText())) {
 							String text = jFormattedTextField.getText();
 							jFormattedTextField.setText(Optional.ofNullable(text).filter(str -> str.length() != 0)
 									.map(str -> str.substring(0, str.length() - 1)).orElse(text));

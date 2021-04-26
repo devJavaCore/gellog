@@ -57,6 +57,7 @@ public class ContentCliente {
 	private JTable tbAdicionados;
 	private DefaultTableModel tableModel;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JRadioButton rdbtnCostumizarTabela;
 
 	public JPanel contentCliente() {
 
@@ -640,7 +641,7 @@ public class ContentCliente {
 		gbc_rdbtnUsarTabelaPadrao.gridy = 2;
 		panel_TabelaFrete.add(rdbtnUsarTabelaPadrao, gbc_rdbtnUsarTabelaPadrao);
 
-		JRadioButton rdbtnCostumizarTabela = new JRadioButton("Costumizar Tabela de Frete");
+		rdbtnCostumizarTabela = new JRadioButton("Costumizar Tabela de Frete");
 		GridBagConstraints gbc_rdbtnCostumizarTabela = new GridBagConstraints();
 		gbc_rdbtnCostumizarTabela.insets = new Insets(0, 0, 0, 5);
 		gbc_rdbtnCostumizarTabela.gridx = 1;
@@ -673,7 +674,7 @@ public class ContentCliente {
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+
 				frame = new FrameTabela();
 				frame.createAndShow();
 			}
@@ -683,6 +684,7 @@ public class ContentCliente {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					btnCostumizarTabelaDe.setEnabled(true);
+					
 				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
 					btnCostumizarTabelaDe.setEnabled(false);
 				}
@@ -710,13 +712,18 @@ public class ContentCliente {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				
+				
+				if(txFNumero == null || txFNumero.getText().isEmpty()) {
+					txFNumero.setText("0");
+				}
 				EnderecoController.endereco(txFBairro.getText(), txFCEP.getText(), txFCidade.getText(),
 						txFComplemento.getText(), txFEstado.getText(), txFLogradouro.getText(),
 						Integer.parseInt(txFNumero.getText()));
 
 				EmpresaController.empresa(!rdbtnCostumizarTabela.isSelected(), txFCNPJ.getText(), txFEmail.getText(),
 						txFInscricaoEstadual.getText(), txFRazaoSocial.getText(), txFTelefone.getText());
-				
+
 				for (int i = 0; i < tableModel.getRowCount(); i++) {
 
 					PessoaController.pessoa((String) tableModel.getValueAt(i, 0), (String) tableModel.getValueAt(i, 2),
@@ -732,5 +739,13 @@ public class ContentCliente {
 
 	public static FrameTabela getFrame() {
 		return frame;
+	}
+
+	public JRadioButton getRdbtnCostumizarTabela() {
+		return rdbtnCostumizarTabela;
+	}
+
+	public void setRdbtnCostumizarTabela(JRadioButton rdbtnCostumizarTabela) {
+		this.rdbtnCostumizarTabela = rdbtnCostumizarTabela;
 	}
 }

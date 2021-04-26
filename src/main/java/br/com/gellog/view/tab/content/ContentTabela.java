@@ -39,8 +39,10 @@ public class ContentTabela {
 	private JPanel panel_TxParadoTitulo;
 	private JLabel lblTaxaPorTempo;
 	private MyJPanel panel_CalculoPeso, panel_CalculoKm, panel_txParado;
+
+
 	public JPanel contentTabela(boolean tabelaPadrao) {
-		
+
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(240, 240, 240));
 		panel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
@@ -459,25 +461,24 @@ public class ContentTabela {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				if(!tabelaPadrao) {
+				if (!tabelaPadrao) {
 					FrameTabela.setInvisible();
-					}
-			}
-		});
-		
-		botaoCancelar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(!tabelaPadrao) {
-				FrameTabela.setInvisible();
 				}
 			}
 		});
 
-		TabelaController.preencheTabelaPadrao(this);
-
-		return panel;
+		botaoCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (!tabelaPadrao) {
+					FrameTabela.setInvisible();
+				}
+			}
+		});
+			TabelaController.preencheTabelaPadrao(this);
+		
+			return panel;
 	}
 
 	public void setTxFBHKG(String txFBHKG) {
@@ -558,5 +559,5 @@ public class ContentTabela {
 
 	public void resetaTabelaPadrao() {
 		TabelaController.preencheTabelaPadrao(this);
-	}	
+	}
 }

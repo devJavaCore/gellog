@@ -7,7 +7,7 @@ public class EnderecoController {
 	private static Endereco endereco;
 
 	static public void endereco(String Bairro, String Cep, String Cidade, String complemento,
-			String estado, String logradouro, int numero) {
+			String estado, String logradouro, Integer numero) {
 		endereco = new Endereco();
 
 		endereco.setBairro(Bairro);

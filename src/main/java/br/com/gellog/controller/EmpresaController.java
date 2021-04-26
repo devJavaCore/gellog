@@ -25,18 +25,21 @@ public class EmpresaController {
 		empresa.setFuncionario(new FuncionarioClienteDAO().resultList());
 		
 		if(!tabelaPadrao) {
-		new SimpleQueries().simpleInsert(tabela);
-		empresa.setTabela(new TabelaFreteDAO().lastResultEmpresa());
 		empresa.setTabelaPadrao(false);
 		} else {
 			empresa.setTabelaPadrao(true);
-			empresa.setTabela(new TabelaFreteDAO().tabelaPadrao());
 		}
 		
 		empresa.setLogin(LoginController.getUltimoLogado());
 
 		new EmpresaDAO().adiconaEmpresa(empresa);
 		
+		if(!tabelaPadrao) {
+			tabela.setEmpresa(new EmpresaDAO().lastResult());
+			new SimpleQueries().simpleInsert(tabela);
+			} else {
+				new TabelaFreteDAO().tabelaPadrao();
+			}
 	}
 
 	public static TabelaFreteModel getTabelaFrete() {
