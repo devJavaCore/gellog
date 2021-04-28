@@ -1,6 +1,6 @@
 package br.com.gellog.controller;
 
-import br.com.gellog.dao.SimpleQueries;
+import br.com.gellog.dao.PessoaDAO;
 import br.com.gellog.model.Pessoa;
 
 public class PessoaController {
@@ -12,6 +12,6 @@ public class PessoaController {
 		pessoa.setTelefone(telefone);
 		pessoa.setEmail(email);
 		
-		new SimpleQueries().simpleInsert(pessoa);
+		new PessoaDAO().adiconaPessoa(pessoa);
 	}
 }

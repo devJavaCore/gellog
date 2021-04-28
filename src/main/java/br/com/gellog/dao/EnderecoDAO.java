@@ -22,4 +22,16 @@ public class EnderecoDAO {
 		}
 		return result;
 	}
+	public void adicionaEndereco(Endereco endereco ) {
+		try {
+			emf = new JpaEMF().getEntityManager();
+			emf.getTransaction().begin();
+			emf.persist(endereco);
+			emf.getTransaction().commit();
+			emf.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

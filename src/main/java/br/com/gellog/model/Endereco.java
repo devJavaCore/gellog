@@ -28,8 +28,7 @@ public class Endereco {
 	@OneToOne(mappedBy="endereco")	 
 	private Empresa empresa;
 	 
-	String cep, cidade, estado, bairro, logradouro, complemento;
-	Integer numero;
+	String cep, cidade, estado, bairro, logradouro, complemento, numero;
 	public Endereco() {
 		super();
 		date = Calendar.getInstance();
@@ -88,10 +87,16 @@ public class Endereco {
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
-	public Integer getNumero() {
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
+	public String getNumero() {
 		return numero;
 	}
-	public void setNumero(Integer numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
-	}	
+	}
 }

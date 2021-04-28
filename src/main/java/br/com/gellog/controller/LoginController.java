@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import br.com.gellog.dao.LoginDAO;
-import br.com.gellog.dao.SimpleQueries;
+import br.com.gellog.dao.TabelaLoginDAO;
 import br.com.gellog.model.Login;
 import br.com.gellog.model.TabelaLogin;
 import br.com.gellog.view.util.CreateAndShowGUI;
@@ -18,7 +18,7 @@ public class LoginController {
 		loginCheck = new LoginDAO().loginResult(user, password);
 		try {	
 				if (loginCheck != null) {
-					new SimpleQueries().simpleInsert(new TabelaLogin(loginCheck));
+					new TabelaLoginDAO().adiconaTabelaLogin(new TabelaLogin(loginCheck));
 					ultimoLogado = loginCheck;
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {

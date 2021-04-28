@@ -8,13 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,7 +18,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import br.com.gellog.controller.TabelaController;
+import br.com.gellog.model.Empresa;
 import br.com.gellog.view.frame.FrameTabela;
+import br.com.gellog.view.util.GenerateIcon;
 import br.com.gellog.view.util.Events.NumberFormatter;
 import br.com.gellog.view.util.Events.SetZero;
 import br.com.gellog.view.util.jcomponents.JIconButton;
@@ -39,13 +37,13 @@ public class ContentTabela {
 	private JPanel panel_TxParadoTitulo;
 	private JLabel lblTaxaPorTempo;
 	private MyJPanel panel_CalculoPeso, panel_CalculoKm, panel_txParado;
+	
 
-
-	public JPanel contentTabela(boolean tabelaPadrao) {
+	public JPanel contentTabela(boolean tabelaPadrao, Empresa empresa) {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(240, 240, 240));
-		panel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
+		panel.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0));
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0, 0, 0 };
 		gbl_panel.rowHeights = new int[] { 0, 0, 0 };
@@ -145,12 +143,15 @@ public class ContentTabela {
 
 		JLabel lblTaxaConfins = new JLabel("Taxa Confins");
 		txFBHKG.setHorizontalAlignment(SwingConstants.CENTER);
+
 		try {
-			txFBHKG.setIcon(new ImageIcon(ImageIO.read(new File("/br/com/gellog/view/img/currency.png"))));
-		} catch (IOException e1) {
+			GenerateIcon generateIcon = new GenerateIcon();
+			txFBHKG.setIcon(generateIcon.generateIcon("src/main/java/br/com/gellog/view/img/currency.png"));
+		} catch (Exception e2) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e2.printStackTrace();
 		}
+
 		GridBagConstraints gbc_lblTaxaConfins = new GridBagConstraints();
 		gbc_lblTaxaConfins.anchor = GridBagConstraints.EAST;
 		gbc_lblTaxaConfins.insets = new Insets(0, 0, 0, 5);
@@ -445,24 +446,41 @@ public class ContentTabela {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
-				try {
-					TabelaController.updateTabelaPadrao(tabelaPadrao, new BigDecimal(txFBHKG.getText()),
-							new BigDecimal(txFBHExc.getText()), new BigDecimal(txFRMBHKg.getText()),
-							new BigDecimal(txFRMBHExc.getText()), new BigDecimal(txFInterirorKG.getText()),
-							new BigDecimal(txFInterirorExc.getText()), new BigDecimal(txFTxConfins.getText()),
-							new BigDecimal(txFKmRodadoFiorino.getText()), new BigDecimal(txFKmRodadoVan.getText()),
-							new BigDecimal(txFFiorinoh.getText()), new BigDecimal(txFVanh.getText()),
-							new BigDecimal(txFFiorino2h.getText()), new BigDecimal(txFVan2h.getText()),
-							new BigDecimal(txFFiorino4h.getText()), new BigDecimal(txFVan4h.getText()),
-							new BigDecimal(txFFiorino6h.getText()), new BigDecimal(txFVan6h.getText()),
-							new BigDecimal(txFFiorino8h.getText()), new BigDecimal(txFVan8h.getText()));
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				if (!tabelaPadrao) {
-					FrameTabela.setInvisible();
+					if(empresa == null) {
+					try {
+						TabelaController.updateInsertTabela(tabelaPadrao, new BigDecimal(txFBHKG.getText()),
+								new BigDecimal(txFBHExc.getText()), new BigDecimal(txFRMBHKg.getText()),
+								new BigDecimal(txFRMBHExc.getText()), new BigDecimal(txFInterirorKG.getText()),
+								new BigDecimal(txFInterirorExc.getText()), new BigDecimal(txFTxConfins.getText()),
+								new BigDecimal(txFKmRodadoFiorino.getText()), new BigDecimal(txFKmRodadoVan.getText()),
+								new BigDecimal(txFFiorinoh.getText()), new BigDecimal(txFVanh.getText()),
+								new BigDecimal(txFFiorino2h.getText()), new BigDecimal(txFVan2h.getText()),
+								new BigDecimal(txFFiorino4h.getText()), new BigDecimal(txFVan4h.getText()),
+								new BigDecimal(txFFiorino6h.getText()), new BigDecimal(txFVan6h.getText()),
+								new BigDecimal(txFFiorino8h.getText()), new BigDecimal(txFVan8h.getText()));
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					} else {
+						try {
+							TabelaController.updateTabelaEmpresa(empresa, new BigDecimal(txFBHKG.getText()),
+									new BigDecimal(txFBHExc.getText()), new BigDecimal(txFRMBHKg.getText()),
+									new BigDecimal(txFRMBHExc.getText()), new BigDecimal(txFInterirorKG.getText()),
+									new BigDecimal(txFInterirorExc.getText()), new BigDecimal(txFTxConfins.getText()),
+									new BigDecimal(txFKmRodadoFiorino.getText()), new BigDecimal(txFKmRodadoVan.getText()),
+									new BigDecimal(txFFiorinoh.getText()), new BigDecimal(txFVanh.getText()),
+									new BigDecimal(txFFiorino2h.getText()), new BigDecimal(txFVan2h.getText()),
+									new BigDecimal(txFFiorino4h.getText()), new BigDecimal(txFVan4h.getText()),
+									new BigDecimal(txFFiorino6h.getText()), new BigDecimal(txFVan6h.getText()),
+									new BigDecimal(txFFiorino8h.getText()), new BigDecimal(txFVan8h.getText()));
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+							if (!tabelaPadrao) {
+					FrameTabela.setFVisible(false);
 				}
 			}
 		});
@@ -472,92 +490,98 @@ public class ContentTabela {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if (!tabelaPadrao) {
-					FrameTabela.setInvisible();
+					resetaTabelaPadrao();
+					FrameTabela.setFVisible(false);
 				}
 			}
 		});
-			TabelaController.preencheTabelaPadrao(this);
 		
-			return panel;
+		if (!tabelaPadrao && empresa != null) {
+			TabelaController.preencheTabela(this, empresa);
+		} else {
+			TabelaController.preencheTabela(this, null);
+		}
+		
+		return panel;
 	}
 
-	public void setTxFBHKG(String txFBHKG) {
-		this.txFBHKG.setText(txFBHKG);
+	public void setTxFBHKG(String tBHKG) {
+		txFBHKG.setText(tBHKG);
 	}
 
-	public void setTxFBHExc(String txFBHExc) {
-		this.txFBHExc.setText(txFBHExc);
+	public void setTxFBHExc(String tBHExc) {
+		txFBHExc.setText(tBHExc);
 	}
 
-	public void setTxFRMBHKg(String txFRMBHKg) {
-		this.txFRMBHKg.setText(txFRMBHKg);
+	public void setTxFRMBHKg(String tRMBHKg) {
+		txFRMBHKg.setText(tRMBHKg);
 	}
 
-	public void setTxFRMBHExc(String txFRMBHExc) {
-		this.txFRMBHExc.setText(txFRMBHExc);
+	public void setTxFRMBHExc(String tRMBHExc) {
+		txFRMBHExc.setText(tRMBHExc);
 	}
 
-	public void setTxFInterirorKG(String txFInterirorKG) {
-		this.txFInterirorKG.setText(txFInterirorKG);
+	public void setTxFInterirorKG(String tInterirorKG) {
+		txFInterirorKG.setText(tInterirorKG);
 	}
 
-	public void setTxFInterirorExc(String txFInterirorExc) {
-		this.txFInterirorExc.setText(txFInterirorExc);
+	public void setTxFInterirorExc(String tInterirorExc) {
+		txFInterirorExc.setText(tInterirorExc);
 	}
 
-	public void setTxFTxConfins(String txFTxConfins) {
-		this.txFTxConfins.setText(txFTxConfins);
+	public void setTxFTxConfins(String tTxConfins) {
+		txFTxConfins.setText(tTxConfins);
 	}
 
-	public void setTxFKmRodadoFiorino(String txFKmRodadoFiorino) {
-		this.txFKmRodadoFiorino.setText(txFKmRodadoFiorino);
+	public void setTxFKmRodadoFiorino(String tKmRodadoFiorino) {
+		txFKmRodadoFiorino.setText(tKmRodadoFiorino);
 	}
 
-	public void setTxFKmRodadoVan(String txFKmRodadoVan) {
-		this.txFKmRodadoVan.setText(txFKmRodadoVan);
+	public void setTxFKmRodadoVan(String tKmRodadoVan) {
+		txFKmRodadoVan.setText(tKmRodadoVan);
 	}
 
-	public void setTxFFiorinoh(String txFFiorinoh) {
-		this.txFFiorinoh.setText(txFFiorinoh);
+	public void setTxFFiorinoh(String tFiorinoh) {
+		txFFiorinoh.setText(tFiorinoh);
 	}
 
-	public void setTxFVanh(String txFVanh) {
-		this.txFVanh.setText(txFVanh);
+	public void setTxFVanh(String tVanh) {
+		txFVanh.setText(tVanh);
 	}
 
-	public void setTxFFiorino2h(String txFFiorino2h) {
-		this.txFFiorino2h.setText(txFFiorino2h);
+	public void setTxFFiorino2h(String tFiorino2h) {
+		txFFiorino2h.setText(tFiorino2h);
 	}
 
-	public void setTxFVan2h(String txFVan2h) {
-		this.txFVan2h.setText(txFVan2h);
+	public void setTxFVan2h(String tVan2h) {
+		txFVan2h.setText(tVan2h);
 	}
 
-	public void setTxFFiorino4h(String txFFiorino4h) {
-		this.txFFiorino4h.setText(txFFiorino4h);
+	public void setTxFFiorino4h(String tFiorino4h) {
+		txFFiorino4h.setText(tFiorino4h);
 	}
 
-	public void setTxFVan4h(String txFVan4h) {
-		this.txFVan4h.setText(txFVan4h);
+	public void setTxFVan4h(String tVan4h) {
+		txFVan4h.setText(tVan4h);
 	}
 
-	public void setTxFFiorino6h(String txFFiorino6h) {
-		this.txFFiorino6h.setText(txFFiorino6h);
+	public void setTxFFiorino6h(String tFiorino6h) {
+		txFFiorino6h.setText(tFiorino6h);
 	}
 
-	public void setTxFVan6h(String txFVan6h) {
-		this.txFVan6h.setText(txFVan6h);
+	public void setTxFVan6h(String tVan6h) {
+		txFVan6h.setText(tVan6h);
 	}
 
-	public void setTxFFiorino8h(String txFFiorino8h) {
-		this.txFFiorino8h.setText(txFFiorino8h);
+	public void setTxFFiorino8h(String tFiorino8h) {
+		txFFiorino8h.setText(tFiorino8h);
 	}
 
-	public void setTxFVan8h(String txFVan8h) {
-		this.txFVan8h.setText(txFVan8h);
+	public void setTxFVan8h(String fVan8h) {
+		txFVan8h.setText(fVan8h);
 	}
 
 	public void resetaTabelaPadrao() {
-		TabelaController.preencheTabelaPadrao(this);
-	}
+		TabelaController.preencheTabela(this, null);
+	}	
 }

@@ -12,6 +12,6 @@ public class TabTabela {
 		CreateTabStructureAndContent createTabStructureAndContent = new CreateTabStructureAndContent();
 		createTabStructureAndContent.complementoTitulo = " de Frete";
 		createTabStructureAndContent.tabStructureAndContent(tabbedPane, 3);
-		createTabStructureAndContent.panel_center.add(new ContentTabela().contentTabela(true));
+		createTabStructureAndContent.panel_center.add(new ContentTabela().contentTabela(true,null));
 	}
 }

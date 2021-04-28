@@ -22,11 +22,24 @@ public class PeopleQueries {
 		return people;
 	}
 
-	public void simpleInsert(Object obj) {
+	public void simplePersist(Object obj) {
 		try {
 			emf = new JpaEMF().getEntityManager();
 			emf.getTransaction().begin();
 			emf.persist(obj);
+			emf.getTransaction().commit();
+			emf.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void simpleMerge(Object obj) {
+		try {
+			emf = new JpaEMF().getEntityManager();
+			emf.getTransaction().begin();
+			emf.merge(obj);
 			emf.getTransaction().commit();
 			emf.close();
 		} catch (Exception e) {

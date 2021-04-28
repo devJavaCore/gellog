@@ -14,6 +14,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -35,8 +36,11 @@ import br.com.gellog.controller.EmpresaController;
 import br.com.gellog.controller.EnderecoController;
 import br.com.gellog.controller.FuncionarioClienteController;
 import br.com.gellog.controller.PessoaController;
+import br.com.gellog.model.Empresa;
+import br.com.gellog.model.FuncionarioCliente;
 import br.com.gellog.util.CEPConnection;
 import br.com.gellog.view.frame.FrameTabela;
+import br.com.gellog.view.tab.TabCliente;
 import br.com.gellog.view.util.Events.EmailFormat;
 import br.com.gellog.view.util.Events.OnlyNumber;
 import br.com.gellog.view.util.Events.OnlyWords;
@@ -46,7 +50,7 @@ import br.com.gellog.view.util.jcomponents.JbtnRoundedBorder;
 import br.com.gellog.view.util.jcomponents.MyJPanel;
 
 public class ContentCliente {
-	static private FrameTabela frame;
+	private static  FrameTabela frame;
 	private JPanel panel_DadosGeraisTitulo, panel, panel_Titulo, panel_TituloContato, panel_TituloFrete;
 	private MyJPanel panel_DadosGerais, panel_Endereco, panel_Contato, panel_TabelaFrete;
 	private JLabel lblDadosGerais;
@@ -57,19 +61,33 @@ public class ContentCliente {
 	private JTable tbAdicionados;
 	private DefaultTableModel tableModel;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JRadioButton rdbtnCostumizarTabela;
+	private JRadioButton rdbtnCostumizarTabela, rdbtnUsarTabelaPadrao;
+	private String auxCnpj;
+	private List<FuncionarioCliente> listaFuncionarios;
+	private boolean tabelaFreteSetada;
 
-	public JPanel contentCliente() {
-
+	public JPanel contentCliente(boolean novoCliente, Empresa empresa) {
+		
+		
+		
 		panel = new JPanel();
 		panel.setBackground(new Color(240, 240, 240));
-		panel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0 };
-		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
+		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
 		gbl_panel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
+
+		JLabel lblNovoCliente = new JLabel("Cliente / Adiciona");
+		lblNovoCliente.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+		GridBagConstraints gbc_panel_lblNCliente = new GridBagConstraints();
+		gbc_panel_lblNCliente.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_lblNCliente.fill = GridBagConstraints.BOTH;
+		gbc_panel_lblNCliente.gridx = 0;
+		gbc_panel_lblNCliente.gridy = 0;
+		panel.add(lblNovoCliente, gbc_panel_lblNCliente);
 
 		panel_DadosGerais = new MyJPanel();
 		panel_DadosGerais.setBorder(new EmptyBorder(0, 5, 5, 5));
@@ -77,7 +95,7 @@ public class ContentCliente {
 		gbc_panel_DadosGerais.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_DadosGerais.fill = GridBagConstraints.BOTH;
 		gbc_panel_DadosGerais.gridx = 0;
-		gbc_panel_DadosGerais.gridy = 0;
+		gbc_panel_DadosGerais.gridy = 1;
 		GridBagLayout gbl_panel_DadosGerais = new GridBagLayout();
 		gbl_panel_DadosGerais.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 		gbl_panel_DadosGerais.rowHeights = new int[] { 0, 0, 0, 0 };
@@ -221,7 +239,7 @@ public class ContentCliente {
 		gbc_panel_Endereco.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_Endereco.fill = GridBagConstraints.BOTH;
 		gbc_panel_Endereco.gridx = 0;
-		gbc_panel_Endereco.gridy = 1;
+		gbc_panel_Endereco.gridy = 2;
 		GridBagLayout gbl_panel_Endereco = new GridBagLayout();
 		gbl_panel_Endereco.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_panel_Endereco.rowHeights = new int[] { 0, 0, 0, 0 };
@@ -409,7 +427,7 @@ public class ContentCliente {
 		gbc_panel_Contatos.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_Contatos.fill = GridBagConstraints.BOTH;
 		gbc_panel_Contatos.gridx = 0;
-		gbc_panel_Contatos.gridy = 2;
+		gbc_panel_Contatos.gridy = 3;
 		GridBagLayout gbl_panel_Contatos = new GridBagLayout();
 		gbl_panel_Contatos.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 		gbl_panel_Contatos.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
@@ -572,6 +590,7 @@ public class ContentCliente {
 			}
 		};
 		tbAdicionados = new JTable(tableModel);
+		tbAdicionados.setAutoCreateRowSorter(true);
 		for (String column : header) {
 			tableModel.addColumn(column);
 		}
@@ -592,7 +611,12 @@ public class ContentCliente {
 				// TODO Auto-generated method stub
 				if (tbAdicionados.getSelectedColumn() == 4) {
 					try {
-						tableModel.removeRow(tbAdicionados.getSelectedRow());
+						
+						int row = tbAdicionados.getSelectedRow();
+		                row = tbAdicionados.convertRowIndexToModel(row);
+		                tableModel.removeRow(row);
+		                
+		                
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -611,7 +635,7 @@ public class ContentCliente {
 		gbc_panel_TabelaFrete.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_TabelaFrete.fill = GridBagConstraints.BOTH;
 		gbc_panel_TabelaFrete.gridx = 0;
-		gbc_panel_TabelaFrete.gridy = 3;
+		gbc_panel_TabelaFrete.gridy = 4;
 		GridBagLayout gbl_panel_CalculoPeso = new GridBagLayout();
 		gbl_panel_CalculoPeso.columnWidths = new int[] { 0, 0, 0 };
 		gbl_panel_CalculoPeso.rowHeights = new int[] { 0, 0, 0 };
@@ -634,7 +658,7 @@ public class ContentCliente {
 		lblTabelaDeFrete.setForeground(new Color(255, 255, 255));
 		panel_TituloFrete.add(lblTabelaDeFrete);
 
-		JRadioButton rdbtnUsarTabelaPadrao = new JRadioButton("Usar Tabela de Frete Padrão");
+		rdbtnUsarTabelaPadrao = new JRadioButton("Usar Tabela de Frete Padrão");
 		GridBagConstraints gbc_rdbtnUsarTabelaPadrao = new GridBagConstraints();
 		gbc_rdbtnUsarTabelaPadrao.insets = new Insets(0, 0, 0, 5);
 		gbc_rdbtnUsarTabelaPadrao.gridx = 0;
@@ -660,6 +684,8 @@ public class ContentCliente {
 		gbc_btnCostumizarTabelaDe.gridx = 2;
 		gbc_btnCostumizarTabelaDe.gridy = 2;
 		panel_TabelaFrete.add(btnCostumizarTabelaDe, gbc_btnCostumizarTabelaDe);
+		frame = new FrameTabela();
+		tabelaFreteSetada = false;
 		btnCostumizarTabelaDe.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -674,9 +700,12 @@ public class ContentCliente {
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
-				frame = new FrameTabela();
-				frame.createAndShow();
+				if(!tabelaFreteSetada) {
+				frame.createAndShow(empresa);
+				} else {
+					FrameTabela.setFVisible(true);
+				}
+				tabelaFreteSetada = true;
 			}
 		});
 
@@ -684,7 +713,7 @@ public class ContentCliente {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					btnCostumizarTabelaDe.setEnabled(true);
-					
+
 				} else if (e.getStateChange() == ItemEvent.DESELECTED) {
 					btnCostumizarTabelaDe.setEnabled(false);
 				}
@@ -698,7 +727,7 @@ public class ContentCliente {
 		gbc_panel_buttons.anchor = GridBagConstraints.SOUTH;
 		gbc_panel_buttons.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel_buttons.gridx = 0;
-		gbc_panel_buttons.gridy = 4;
+		gbc_panel_buttons.gridy = 5;
 		panel.add(panel_buttons, gbc_panel_buttons);
 
 		botaoVoltar = new JIconButton().botaoVoltar();
@@ -707,39 +736,89 @@ public class ContentCliente {
 		panel_buttons.add(botaoVoltar);
 		panel_buttons.add(botaoCancelar);
 		panel_buttons.add(botaoSalvar);
+		botaoVoltar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				TabCliente.voltarListaClientes();
+				reiniciaCampos();
+			}
+		});
+
+		botaoCancelar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				TabCliente.voltarListaClientes();
+				reiniciaCampos();
+			}
+		});
+
 		botaoSalvar.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
-				
-				if(txFNumero == null || txFNumero.getText().isEmpty()) {
-					txFNumero.setText("0");
+
+				if (txFCNPJ != null || !txFCNPJ.getText().isEmpty()) {
+					auxCnpj = txFCNPJ.getText().replaceAll("[^0-9]", "");
+				} else {
+					auxCnpj = null;
 				}
-				EnderecoController.endereco(txFBairro.getText(), txFCEP.getText(), txFCidade.getText(),
-						txFComplemento.getText(), txFEstado.getText(), txFLogradouro.getText(),
-						Integer.parseInt(txFNumero.getText()));
+				if (empresa == null) {
+	
+					EnderecoController.endereco(txFBairro.getText(), txFCEP.getText(), txFCidade.getText(),
+							txFComplemento.getText(), txFEstado.getText(), txFLogradouro.getText(),
+							txFNumero.getText());
 
-				EmpresaController.empresa(!rdbtnCostumizarTabela.isSelected(), txFCNPJ.getText(), txFEmail.getText(),
-						txFInscricaoEstadual.getText(), txFRazaoSocial.getText(), txFTelefone.getText());
+					EmpresaController.empresa(!rdbtnCostumizarTabela.isSelected(), auxCnpj, txFEmail.getText(),
+							txFInscricaoEstadual.getText(), txFRazaoSocial.getText(), txFTelefone.getText());
 
-				for (int i = 0; i < tableModel.getRowCount(); i++) {
+					for (int i = 0; i < tableModel.getRowCount(); i++) {
 
-					PessoaController.pessoa((String) tableModel.getValueAt(i, 0), (String) tableModel.getValueAt(i, 2),
-							(String) tableModel.getValueAt(i, 1));
+						PessoaController.pessoa((String) tableModel.getValueAt(i, 0),
+								(String) tableModel.getValueAt(i, 2), (String) tableModel.getValueAt(i, 1));
 
-					FuncionarioClienteController.funcionario((String) tableModel.getValueAt(i, 3));
+						FuncionarioClienteController.funcionario((String) tableModel.getValueAt(i, 3));
+					}
+					reiniciaCampos();
+					TabCliente.voltarListaClientes();
+				} else {
+					
+
+					EnderecoController.updateEndereco(empresa.getEndereco(), txFBairro.getText(), txFCEP.getText(),
+							txFCidade.getText(), txFComplemento.getText(), txFEstado.getText(), txFLogradouro.getText(),
+							txFNumero.getText());
+
+					EmpresaController.updateEmpresa(empresa, !rdbtnCostumizarTabela.isSelected(), auxCnpj,
+							txFEmail.getText(), txFInscricaoEstadual.getText(), txFRazaoSocial.getText(),
+							txFTelefone.getText());
+
+					FuncionarioClienteController.deletaFuncionarioEmpresa(empresa);
+
+					for (int i = 0; i < tableModel.getRowCount(); i++) {
+
+						PessoaController.pessoa((String) tableModel.getValueAt(i, 0),
+								(String) tableModel.getValueAt(i, 2), (String) tableModel.getValueAt(i, 1));
+
+						FuncionarioClienteController.updateFuncionario((String) tableModel.getValueAt(i, 3), empresa);
+					}
+					reiniciaCampos();
+					TabCliente.voltarListaClientes();
 				}
 			}
 		});
 
+		if (!novoCliente && empresa != null) {
+			preencheEmpresa(empresa);
+		}
+
 		return panel;
 	}
 
-	public static FrameTabela getFrame() {
-		return frame;
-	}
+	
 
 	public JRadioButton getRdbtnCostumizarTabela() {
 		return rdbtnCostumizarTabela;
@@ -747,5 +826,125 @@ public class ContentCliente {
 
 	public void setRdbtnCostumizarTabela(JRadioButton rdbtnCostumizarTabela) {
 		this.rdbtnCostumizarTabela = rdbtnCostumizarTabela;
+	}
+
+	public void reiniciaCampos() {
+		txFBairro.setText(null);
+		txFCEP.setText(null);
+		txFCidade.setText(null);
+		txFComplemento.setText(null);
+		txFEstado.setText(null);
+		txFLogradouro.setText(null);
+		txFNumero.setText(null);
+		rdbtnUsarTabelaPadrao.setSelected(true);
+		txFCNPJ.setText(null);
+		txFEmail.setText(null);
+		txFInscricaoEstadual.setText(null);
+		txFRazaoSocial.setText(null);
+		txFTelefone.setText(null);
+		
+		int rowCount = tableModel.getRowCount();
+		for (int i = rowCount - 1; i >= 0; i--) {
+			tableModel.fireTableDataChanged();
+			tableModel.setRowCount(0);
+			tableModel.removeRow(i);
+		}
+	}
+
+	public void preencheEmpresa(Empresa empresa) {
+		try {
+			txFBairro.setText(empresa.getEndereco().getBairro());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			txFCEP.setText(empresa.getEndereco().getCep());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			txFCidade.setText(empresa.getEndereco().getCidade());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			txFComplemento.setText(empresa.getEndereco().getComplemento());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			txFEstado.setText(empresa.getEndereco().getEstado());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			txFLogradouro.setText(empresa.getEndereco().getLogradouro());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			txFNumero.setText(empresa.getEndereco().getNumero().toString());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			rdbtnUsarTabelaPadrao.setSelected(empresa.isTabelaPadrao());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			rdbtnCostumizarTabela.setSelected(!empresa.isTabelaPadrao());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			txFCNPJ.setText(empresa.getCnpj());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			txFEmail.setText(empresa.getEmail());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			txFInscricaoEstadual.setText(empresa.getInscricaoEstadual());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			txFRazaoSocial.setText(empresa.getNome());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		txFTelefone.setText(empresa.getTelefone());
+
+		try {
+			listaFuncionarios = FuncionarioClienteController.getFuncionarioEmpresa(empresa.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 
+		tableModel.fireTableDataChanged();
+		tableModel.setRowCount(0);
+		for (FuncionarioCliente funcionario : listaFuncionarios) {
+			tableModel.addRow(new Object[] { funcionario.getPessoa().getNome(), funcionario.getPessoa().getEmail(),
+					funcionario.getPessoa().getTelefone(), funcionario.getDescricao(),
+					new ImageIcon("src/main/java/br/com/gellog/view/img/iconExcluir.png") });
+		}
 	}
 }

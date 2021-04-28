@@ -22,4 +22,16 @@ public class PessoaDAO {
 		}
 		return result;
 	}
+	public void adiconaPessoa(Pessoa pessoa) {
+		try {
+			emf = new JpaEMF().getEntityManager();
+			emf.getTransaction().begin();
+			emf.persist(pessoa);
+			emf.getTransaction().commit();
+			emf.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

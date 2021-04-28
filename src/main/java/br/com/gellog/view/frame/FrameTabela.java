@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import br.com.gellog.model.Empresa;
 import br.com.gellog.view.tab.content.ContentTabela;
 
 public class FrameTabela extends JFrame {
@@ -17,7 +18,7 @@ public class FrameTabela extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	static private FrameTabela frame;
-	public void createAndShow() {
+	public void createAndShow(Empresa empresa) {
 
 		frame = new FrameTabela();
 		frame.setVisible(true);
@@ -44,10 +45,10 @@ public class FrameTabela extends JFrame {
 
 		JPanel panel_center = new JPanel();
 		contentPane.add(panel_center, BorderLayout.CENTER);
-		panel_center.add(new ContentTabela().contentTabela(false));
+		panel_center.add(new ContentTabela().contentTabela(false, empresa));
 
 	}
-	static public void setInvisible() {
-		frame.setVisible(false);
+	static public void setFVisible(boolean visible) {
+		frame.setVisible(visible);
 	}
 }

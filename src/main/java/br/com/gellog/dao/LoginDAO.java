@@ -21,4 +21,16 @@ public class LoginDAO {
 		}
 		return results;
 	}
+	public void adiconaLogin(Login login) {
+		try {
+			emf = new JpaEMF().getEntityManager();
+			emf.getTransaction().begin();
+			emf.persist(login);
+			emf.getTransaction().commit();
+			emf.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
