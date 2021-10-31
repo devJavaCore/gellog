@@ -34,4 +34,17 @@ public class EnderecoDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	public void updateEndereco(Endereco endereco ) {
+		try {
+			emf = new JpaEMF().getEntityManager();
+			emf.getTransaction().begin();
+			emf.merge(endereco);
+			emf.getTransaction().commit();
+			emf.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

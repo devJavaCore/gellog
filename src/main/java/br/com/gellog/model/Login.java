@@ -43,6 +43,8 @@ public class Login {
 
 	@OneToMany(mappedBy = "login")
 	private List<Empresa> empresa = new ArrayList<>();
+	
+	
 
 	@OneToMany(mappedBy = "login")
 	private List<TabelaLogin> tabelaLogin = new ArrayList<>();
@@ -123,4 +125,5 @@ public class Login {
 	public void setTabelaLogin(List<TabelaLogin> tabelaLogin) {
 		this.tabelaLogin = tabelaLogin;
 	}
+	
 }

@@ -19,7 +19,7 @@ public class Pessoa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 		
-	private String nome, sobrenome, sexo, Telefone, email, cpf, rg, dataNascimento, numeroFilhos, nomeMae;
+	private String nome, sobrenome, sexo, Telefone, telefone2, email, cpf, rg, dataNascimento, numeroFilhos, nomeMae;
 	private Boolean casado;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -34,6 +34,9 @@ public class Pessoa {
 	
 	@OneToOne(mappedBy = "pessoa")
 	private FuncionarioCliente funcionarioCliente;
+
+	@OneToOne(mappedBy = "pessoa")
+	private Motorista motorista;
 
 	public Pessoa() {
 		super();
@@ -78,6 +81,15 @@ public class Pessoa {
 
 	public void setTelefone(String telefone) {
 		Telefone = telefone;
+	}
+	
+
+	public String getTelefone2() {
+		return telefone2;
+	}
+
+	public void setTelefone2(String telefone2) {
+		this.telefone2 = telefone2;
 	}
 
 	public String getEmail() {
@@ -167,5 +179,14 @@ public class Pessoa {
 	public void setFuncionarioCliente(FuncionarioCliente funcionarioCliente) {
 		this.funcionarioCliente = funcionarioCliente;
 	}
+
+	public Motorista getMotorista() {
+		return motorista;
+	}
+
+	public void setMotorista(Motorista motorista) {
+		this.motorista = motorista;
+	}
+	
 	
 }

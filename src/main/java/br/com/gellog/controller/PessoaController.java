@@ -14,4 +14,15 @@ public class PessoaController {
 		
 		new PessoaDAO().adiconaPessoa(pessoa);
 	}
+	/*
+	static public void updateMotorista(Motorista pessoa, String nome, String cpf, String telefone, String telefone2, String email) {
+		pessoa.setNome(nome);
+		pessoa.setCpf(cpf);
+		pessoa.setTelefone(telefone);
+		pessoa.setTelefone2(telefone2);
+		pessoa.setEmail(email);
+		pessoa.setEndereco(new EnderecoDAO().lastResult());
+		new PessoaDAO().updatePessoa(pessoa);
+	}
+	*/
 }

@@ -34,4 +34,17 @@ public class PessoaDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	public void updatePessoa(Pessoa pessoa) {
+		try {
+			emf = new JpaEMF().getEntityManager();
+			emf.getTransaction().begin();
+			emf.merge(pessoa);
+			emf.getTransaction().commit();
+			emf.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

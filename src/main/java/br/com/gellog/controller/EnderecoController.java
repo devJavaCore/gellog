@@ -33,6 +33,6 @@ public class EnderecoController {
 		endereco.setLogradouro(logradouro);
 		endereco.setNumero(numero);
 		
-		new EnderecoDAO().adicionaEndereco(endereco);
+		new EnderecoDAO().updateEndereco(endereco);
 	}
 }
