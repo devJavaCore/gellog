@@ -27,7 +27,7 @@ public class Empresa {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar date;
-	private boolean tabelaPadrao;
+	private boolean tabelaPadrao, ativo;
 	private String nome, cnpj, inscricaoEstadual, telefone, email;
 
 	@OneToMany(mappedBy = "empresa")
@@ -142,6 +142,14 @@ public class Empresa {
 
 	public void setLogin(Login login) {
 		this.login = login;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 }

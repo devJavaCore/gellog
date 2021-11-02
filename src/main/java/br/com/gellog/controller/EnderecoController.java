@@ -22,9 +22,9 @@ public class EnderecoController {
 	}
 	static public void updateEndereco(Endereco endereco, String Bairro, String Cep, String Cidade, String complemento,
 			String estado, String logradouro, String numero) {
-		endereco = new Endereco();
+		//endereco = new Endereco();
 
-		endereco.setId(null);
+		//endereco.setId(null);
 		endereco.setBairro(Bairro);
 		endereco.setCep(Cep);
 		endereco.setCidade(Cidade);

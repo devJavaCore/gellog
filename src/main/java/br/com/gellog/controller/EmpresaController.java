@@ -15,7 +15,7 @@ public class EmpresaController {
 	private static TabelaFreteModel tabela;
 
 	static public void empresa(boolean tabelaPadrao, String cnpj, String email, String inscricaoEstadual,
-			String RazaoSocial, String telefone) {
+			String RazaoSocial, String telefone, boolean ativo) {
 		empresa = new Empresa();
 
 		empresa.setCnpj(cnpj);
@@ -23,6 +23,7 @@ public class EmpresaController {
 		empresa.setInscricaoEstadual(inscricaoEstadual);
 		empresa.setNome(RazaoSocial);
 		empresa.setTelefone(telefone);
+		empresa.setAtivo(ativo);
 		empresa.setEndereco(new EnderecoDAO().lastResult());
 		empresa.setFuncionario(new FuncionarioClienteDAO().resultList());
 
@@ -45,13 +46,14 @@ public class EmpresaController {
 	}
 
 	static public void updateEmpresa(Empresa empresa, boolean tabelaPadrao, String cnpj, String email, String inscricaoEstadual,
-			String RazaoSocial, String telefone) {
+			String RazaoSocial, String telefone, boolean ativo) {
 
 		empresa.setCnpj(cnpj);
 		empresa.setEmail(email);
 		empresa.setInscricaoEstadual(inscricaoEstadual);
 		empresa.setNome(RazaoSocial);
 		empresa.setTelefone(telefone);
+		empresa.setAtivo(ativo);
 		empresa.setTabelaPadrao(tabelaPadrao);
 		empresa.setLogin(LoginController.getUltimoLogado());
 		empresa.setDate(Calendar.getInstance());

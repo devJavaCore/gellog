@@ -20,7 +20,7 @@ public class Pessoa {
 	private Integer id;
 		
 	private String nome, sobrenome, sexo, Telefone, telefone2, email, cpf, rg, dataNascimento, numeroFilhos, nomeMae;
-	private Boolean casado;
+	private Boolean casado, ativo;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar date;
@@ -187,6 +187,12 @@ public class Pessoa {
 	public void setMotorista(Motorista motorista) {
 		this.motorista = motorista;
 	}
-	
-	
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}	
 }

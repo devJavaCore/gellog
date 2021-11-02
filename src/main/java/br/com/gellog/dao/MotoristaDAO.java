@@ -68,4 +68,28 @@ public class MotoristaDAO {
 		}
 		return resultList;
 	}
+	
+	public void updateMotorista(Motorista motorista) {
+		try {
+			emf = new JpaEMF().getEntityManager();
+			emf.getTransaction().begin();
+			Pessoa pessoa = emf.find(Pessoa.class, motorista.getId());
+			
+			pessoa.setNome(motorista.getNome());
+			pessoa.setCpf(motorista.getCpf());
+			pessoa.setEmail(motorista.getEmail());
+			pessoa.setTelefone(motorista.getTelefone());
+			pessoa.setTelefone2(motorista.getTelefone2());
+			pessoa.setAtivo(motorista.getAtivo());
+			pessoa.setLogin(motorista.getLogin());
+			pessoa.setDate(motorista.getDate());
+			
+			emf.merge(pessoa);
+			emf.getTransaction().commit();
+			emf.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

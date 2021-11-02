@@ -17,6 +17,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -55,7 +56,7 @@ public class ContentMotorista {
 	private JFormattedTextField txFNome, txFCPF, txFEmail, txFTelefone, txFTelefone2, txFCEP, txFCidade, txFEstado,
 			txFBairro, txFLogradouro, txFNumero, txFComplemento, txFModelo, txFPlaca, txFDescricao;
 	private String auxCpf;
-	
+	private JCheckBox jCheckAtivo;
 	private JTable tbAdicionados;
 	private DefaultTableModel tableModel;
 	private List<Veiculo> listaVeiculos;
@@ -72,14 +73,14 @@ public class ContentMotorista {
 		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
-		JLabel lblNovoCliente = new JLabel("Motorista / Adiciona");
-		lblNovoCliente.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-		GridBagConstraints gbc_panel_lblNCliente = new GridBagConstraints();
-		gbc_panel_lblNCliente.insets = new Insets(0, 0, 5, 5);
-		gbc_panel_lblNCliente.fill = GridBagConstraints.BOTH;
-		gbc_panel_lblNCliente.gridx = 0;
-		gbc_panel_lblNCliente.gridy = 0;
-		panel.add(lblNovoCliente, gbc_panel_lblNCliente);
+		jCheckAtivo = new JCheckBox("Cliente Ativo");
+		jCheckAtivo.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+		GridBagConstraints gbc_jCheckAtivo = new GridBagConstraints();
+		gbc_jCheckAtivo.insets = new Insets(0, 0, 5, 5);
+		gbc_jCheckAtivo.anchor = GridBagConstraints.EAST;
+		gbc_jCheckAtivo.gridx = 0;
+		gbc_jCheckAtivo.gridy = 0;
+		panel.add(jCheckAtivo, gbc_jCheckAtivo);
 
 		panel_DadosGerais = new MyJPanel();
 		panel_DadosGerais.setBorder(new EmptyBorder(0, 5, 5, 5));
@@ -452,8 +453,8 @@ public class ContentMotorista {
 		gbc_txFVeiculo.gridx = 1;
 		gbc_txFVeiculo.gridy = 1;
 		JComboBox<TipoVeiculo> jComboBox = new JComboBox<TipoVeiculo>(TipoVeiculo.values());
-		panel_Veiculos.add(jComboBox , gbc_txFVeiculo);
-		//tipoVeiculo.setColumns(10);
+		panel_Veiculos.add(jComboBox, gbc_txFVeiculo);
+		// tipoVeiculo.setColumns(10);
 
 		JLabel lblModelo = new JLabel("Modelo:");
 		GridBagConstraints gbc_lblModelo = new GridBagConstraints();
@@ -488,7 +489,7 @@ public class ContentMotorista {
 		gbc_txFPlaca.gridx = 6;
 		gbc_txFPlaca.gridy = 1;
 		panel_Veiculos.add(txFPlaca, gbc_txFPlaca);
-		txFTelefone.setColumns(10);
+		
 
 		JLabel lblDescrio = new JLabel("Descrição:");
 		GridBagConstraints gbc_lblDescrio = new GridBagConstraints();
@@ -537,7 +538,7 @@ public class ContentMotorista {
 						txFPlaca.getText(), txFDescricao.getText(),
 						new ImageIcon("src/main/java/br/com/gellog/view/img/iconExcluir.png") });
 
-				//txFNome.setText(null);
+				// txFNome.setText(null);
 				txFModelo.setText(null);
 				txFPlaca.setText(null);
 				txFDescricao.setText(null);
@@ -651,15 +652,16 @@ public class ContentMotorista {
 					EnderecoController.endereco(txFBairro.getText(), txFCEP.getText(), txFCidade.getText(),
 							txFComplemento.getText(), txFEstado.getText(), txFLogradouro.getText(),
 							txFNumero.getText());
-					
-					MotoristaController.adicionaMotorista(txFNome.getText(), txFCPF.getText(), txFTelefone.getText(), txFTelefone2.getText(), txFEmail.getText());
+
+					MotoristaController.adicionaMotorista(txFNome.getText(), txFCPF.getText(), txFTelefone.getText(),
+							txFTelefone2.getText(), txFEmail.getText(), jCheckAtivo.isSelected());
 
 					for (int i = 0; i < tableModel.getRowCount(); i++) {
 
 						VeiculoController.veiculo((String) tableModel.getValueAt(i, 1),
-								(String) tableModel.getValueAt(i, 2), (String) tableModel.getValueAt(i, 0), (String) tableModel.getValueAt(i, 3));
+								(String) tableModel.getValueAt(i, 2), (String) tableModel.getValueAt(i, 0),
+								(String) tableModel.getValueAt(i, 3));
 
-						
 					}
 					reiniciaCampos();
 					TabMotorista.voltarListaMotorista();
@@ -668,17 +670,18 @@ public class ContentMotorista {
 					EnderecoController.updateEndereco(motorista.getEndereco(), txFBairro.getText(), txFCEP.getText(),
 							txFCidade.getText(), txFComplemento.getText(), txFEstado.getText(), txFLogradouro.getText(),
 							txFNumero.getText());
-					
-					MotoristaController.updateMotorista(motorista, txFNome.getText(), txFCPF.getText(), txFTelefone.getText(), txFTelefone2.getText(), txFEmail.getText());
 
-				
+					MotoristaController.updateMotorista(motorista, txFNome.getText(), txFCPF.getText(),
+							txFEmail.getText(), txFTelefone.getText(), txFTelefone2.getText(),
+							jCheckAtivo.isSelected());
 
 					VeiculoController.deletaVeiculo(motorista);
 
 					for (int i = 0; i < tableModel.getRowCount(); i++) {
 
 						VeiculoController.veiculo((String) tableModel.getValueAt(i, 1),
-								(String) tableModel.getValueAt(i, 2), (String) tableModel.getValueAt(i, 0), (String) tableModel.getValueAt(i, 3));
+								(String) tableModel.getValueAt(i, 2), (String) tableModel.getValueAt(i, 0),
+								(String) tableModel.getValueAt(i, 3));
 
 					}
 					reiniciaCampos();
@@ -693,7 +696,6 @@ public class ContentMotorista {
 
 		return panel;
 	}
-
 
 	public void reiniciaCampos() {
 		txFBairro.setText(null);
@@ -710,6 +712,7 @@ public class ContentMotorista {
 		txFTelefone.setText(null);
 		txFPlaca.setText(null);
 		txFModelo.setText(null);
+		jCheckAtivo.setSelected(false);
 
 		int rowCount = tableModel.getRowCount();
 		for (int i = rowCount - 1; i >= 0; i--) {
@@ -762,7 +765,7 @@ public class ContentMotorista {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-	
+
 		try {
 			txFCPF.setText(motorista.getCpf());
 		} catch (Exception e1) {
@@ -775,15 +778,33 @@ public class ContentMotorista {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-	
+		try {
+			jCheckAtivo.setSelected(motorista.getAtivo());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		try {
 			txFNome.setText(motorista.getNome());
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		txFTelefone.setText(motorista.getTelefone());
-		txFTelefone2.setText(motorista.getTelefone());
+		try {
+			txFTelefone.setText(motorista.getTelefone());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			txFTelefone2.setText(motorista.getTelefone2());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+
 
 		try {
 			listaVeiculos = VeiculoController.getVeiculos(motorista.getId());
@@ -793,8 +814,8 @@ public class ContentMotorista {
 		}
 
 		for (Veiculo veiculo : listaVeiculos) {
-			tableModel.addRow(new Object[] {veiculo.getTipo(), veiculo.getModelo(), veiculo.getPlaca(), veiculo.getDescricao(),
-					new ImageIcon("src/main/java/br/com/gellog/view/img/iconExcluir.png") });
+			tableModel.addRow(new Object[] { veiculo.getTipo(), veiculo.getModelo(), veiculo.getPlaca(),
+					veiculo.getDescricao(), new ImageIcon("src/main/java/br/com/gellog/view/img/iconExcluir.png") });
 		}
 	}
 }

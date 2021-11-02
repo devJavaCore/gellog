@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -58,6 +59,7 @@ public class ContentCliente {
 	private JFormattedTextField txFRazaoSocial, txFCNPJ, txFInscricaoEstadual, txFEmail, txFTelefone, txFCEP, txFCidade,
 			txFEstado, txFBairro, txFLogradouro, txFNumero, txFComplemento, txFNome, txFEmailContato,
 			txFTelefoneContato, txFDescricao;
+	private JCheckBox jCheckAtivo;
 	private JTable tbAdicionados;
 	private DefaultTableModel tableModel;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
@@ -80,14 +82,15 @@ public class ContentCliente {
 		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
-		JLabel lblNovoCliente = new JLabel("Cliente / Adiciona");
-		lblNovoCliente.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-		GridBagConstraints gbc_panel_lblNCliente = new GridBagConstraints();
-		gbc_panel_lblNCliente.insets = new Insets(0, 0, 5, 5);
-		gbc_panel_lblNCliente.fill = GridBagConstraints.BOTH;
-		gbc_panel_lblNCliente.gridx = 0;
-		gbc_panel_lblNCliente.gridy = 0;
-		panel.add(lblNovoCliente, gbc_panel_lblNCliente);
+		jCheckAtivo = new JCheckBox("Cliente Ativo");
+		jCheckAtivo.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+		GridBagConstraints gbc_jCheckAtivo = new GridBagConstraints();
+		gbc_jCheckAtivo.insets = new Insets(0, 0, 5, 5);
+		gbc_jCheckAtivo.anchor = GridBagConstraints.EAST;
+		gbc_jCheckAtivo.gridx = 0;
+		gbc_jCheckAtivo.gridy = 0;
+		panel.add(jCheckAtivo, gbc_jCheckAtivo);
+		
 
 		panel_DadosGerais = new MyJPanel();
 		panel_DadosGerais.setBorder(new EmptyBorder(0, 5, 5, 5));
@@ -774,7 +777,7 @@ public class ContentCliente {
 							txFNumero.getText());
 
 					EmpresaController.empresa(!rdbtnCostumizarTabela.isSelected(), auxCnpj, txFEmail.getText(),
-							txFInscricaoEstadual.getText(), txFRazaoSocial.getText(), txFTelefone.getText());
+							txFInscricaoEstadual.getText(), txFRazaoSocial.getText(), txFTelefone.getText(), jCheckAtivo.isSelected());
 
 					for (int i = 0; i < tableModel.getRowCount(); i++) {
 
@@ -794,7 +797,7 @@ public class ContentCliente {
 
 					EmpresaController.updateEmpresa(empresa, !rdbtnCostumizarTabela.isSelected(), auxCnpj,
 							txFEmail.getText(), txFInscricaoEstadual.getText(), txFRazaoSocial.getText(),
-							txFTelefone.getText());
+							txFTelefone.getText(), jCheckAtivo.isSelected());
 
 					FuncionarioClienteController.deletaFuncionarioEmpresa(empresa);
 
@@ -842,6 +845,7 @@ public class ContentCliente {
 		txFInscricaoEstadual.setText(null);
 		txFRazaoSocial.setText(null);
 		txFTelefone.setText(null);
+		jCheckAtivo.setSelected(false);
 		
 		int rowCount = tableModel.getRowCount();
 		for (int i = rowCount - 1; i >= 0; i--) {
@@ -914,6 +918,12 @@ public class ContentCliente {
 		}
 		try {
 			txFEmail.setText(empresa.getEmail());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			jCheckAtivo.setSelected(empresa.isAtivo());
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
